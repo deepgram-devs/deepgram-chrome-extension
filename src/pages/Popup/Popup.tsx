@@ -25,6 +25,26 @@ const Popup = () => {
     setURl(e.target.value);
   }
 
+  // Capture Mic
+  const handleMic = async () => {
+    // const queryOptions = { active: true, lastFocusedWindow: true };
+    // const [tab] = await chrome.tabs.query(queryOptions);
+    const tab = await chrome.tabs.create({url: 'panel.html'});
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id},
+      files: ["audiostream.bundle.js"]
+    });
+
+
+    chrome.runtime.onMessage.addListener(({ message }) => {
+      if(message == 'transcriptavailable') {
+        chrome.storage.local.get("transcript", ({ transcript }) => {
+          setTranscript(transcript);
+      })
+      }
+  })
+  }
+
   return (
     <div className="App">
       <Header />
@@ -60,7 +80,7 @@ const Popup = () => {
 
         <ListItem>
           <ListItemButton>
-            <ListItemText primary="Capture From Mic" />
+            <ListItemText primary="Capture From Mic" onClick={handleMic}/>
           </ListItemButton>
         </ListItem>
 
