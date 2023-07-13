@@ -27,22 +27,18 @@ const Popup = () => {
 
   // Capture Mic
   const handleMic = async () => {
-    // const queryOptions = { active: true, lastFocusedWindow: true };
-    // const [tab] = await chrome.tabs.query(queryOptions);
     const tab = await chrome.tabs.create({url: 'panel.html'});
-    chrome.scripting.executeScript({
-      target: { tabId: tab.id},
+  }
+
+  // Run Scripts in Tabs
+  const handleTab = async () => {
+    const queryOptions = { active: true, lastFocusedWindow: true };
+    const [tab] = await chrome.tabs.query(queryOptions);
+    const result = await chrome.scripting.executeScript({
+      target: { tabId: tab.id! },
       files: ["audiostream.bundle.js"]
     });
 
-
-    chrome.runtime.onMessage.addListener(({ message }) => {
-      if(message == 'transcriptavailable') {
-        chrome.storage.local.get("transcript", ({ transcript }) => {
-          setTranscript(transcript);
-      })
-      }
-  })
   }
 
   return (
@@ -74,13 +70,13 @@ const Popup = () => {
 
         <ListItem>
           <ListItemButton>
-            <ListItemText primary="Capture From Tab" />
+            <ListItemText primary="Run Scripts in Tabs(deprecated)" onClick={handleTab}/>
           </ListItemButton>
         </ListItem>
 
         <ListItem>
           <ListItemButton>
-            <ListItemText primary="Capture From Mic" onClick={handleMic}/>
+            <ListItemText primary="Livestream audio" onClick={handleMic}/>
           </ListItemButton>
         </ListItem>
 

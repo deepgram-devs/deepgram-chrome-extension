@@ -1,13 +1,23 @@
 import React, { useState, useRef } from 'react';
-import { Button, Typography } from '@mui/material';
+import { Button, TextareaAutosize, Stack } from '@mui/material';
 import secret from '../../../secrets.development'
 import './Panel.css';
 
 const Panel: React.FC = () => {
-  const [transcript, setTranscript] = useState("This is transciprt: ");
+  const [transcript, setTranscript] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
   const socketRef = useRef<WebSocket | null>(null);
   const recorderRef = useRef<MediaRecorder | null>(null);
+
+  // https://stackoverflow.com/a/47071576
+function mix(audioContext: AudioContext, streams: Array<MediaStream>) {
+  const dest = audioContext.createMediaStreamDestination()
+  streams.forEach(stream => {
+      const source = audioContext.createMediaStreamSource(stream)
+      source.connect(dest);
+  })
+  return dest.stream
+} 
 
   const handleStream = async () => {
     if (isStreaming) {
@@ -16,14 +26,22 @@ const Panel: React.FC = () => {
       
     } else {
       setIsStreaming(true);
-      socketRef.current = new WebSocket('wss://api.deepgram.com/v1/listen?model=general-enhanced', ['token', secret.APIKey])
+      socketRef.current = new WebSocket('wss://api.deepgram.com/v1/listen?model=general&tier=enhanced&smart_format=true&diarize=true', ['token', secret.APIKey])
+      const screenStream = await(navigator.mediaDevices.getDisplayMedia({audio: true}));
       const micStream = await navigator.mediaDevices.getUserMedia({audio: true});
-      recorderRef.current = new MediaRecorder(micStream, {mimeType: 'audio/webm'});
+      const audioContext = new AudioContext();
+      const mixed = mix(audioContext, [screenStream, micStream])
+      recorderRef.current = new MediaRecorder(mixed, {mimeType: 'audio/webm'});
 
       socketRef.current.addEventListener('message', msg => {
         const data = JSON.parse(msg.data);
         console.log(data);
-        if (data.channel && data.channel.alternatives[0].transcript) {
+        if (!data.channel) {
+          socketRef.current.close();
+          recorderRef.current.stop();
+          setIsStreaming(false);
+          return;
+        } else if (data.channel.alternatives[0].transcript) {
           setTranscript(previous => {
             return previous + " " + data.channel.alternatives[0].transcript
           });
@@ -42,13 +60,16 @@ const Panel: React.FC = () => {
       });
 
       recorderRef.current.onstop = () => {
-      micStream.getTracks().forEach((track) => {
-        track.stop();
-      })
-      
+        micStream.getTracks().forEach((track) => {
+          track.stop();
+        })
+
+        screenStream.getTracks().forEach((track) => {
+          track.stop();
+        })
     }
     
-    recorderRef.current.start(250)
+      recorderRef.current.start(250)
 
     }
     
@@ -56,8 +77,10 @@ const Panel: React.FC = () => {
   
   return (
     <div className="container">
+      <Stack spacing={2}>
       <Button onClick={handleStream}>{isStreaming ? "End Livestream" : "Start LiveStream"}</Button>
-      <Typography>{transcript}</Typography>
+      <TextareaAutosize minRows={30} maxLength={50} value={transcript}/>
+      </Stack>
     </div>
   );
 };
