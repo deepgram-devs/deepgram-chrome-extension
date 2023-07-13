@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Button, Typography } from '@mui/material';
 import secret from '../../../secrets.development'
 import './Panel.css';
@@ -6,49 +6,49 @@ import './Panel.css';
 const Panel: React.FC = () => {
   const [transcript, setTranscript] = useState("This is transciprt: ");
   const [isStreaming, setIsStreaming] = useState(false);
-  
-  let socket: WebSocket
+  const socketRef = useRef<WebSocket | null>(null);
+  const recorderRef = useRef<MediaRecorder | null>(null);
 
   const handleStream = async () => {
     if (isStreaming) {
       setIsStreaming(false);
-      socket.close();
+      socketRef.current.close();
       
     } else {
       setIsStreaming(true);
-      socket = new WebSocket('wss://api.deepgram.com/v1/listen?model=general-enhanced', ['token', secret.APIKey])
+      socketRef.current = new WebSocket('wss://api.deepgram.com/v1/listen?model=general-enhanced', ['token', secret.APIKey])
       const micStream = await navigator.mediaDevices.getUserMedia({audio: true});
-      const recorder = new MediaRecorder(micStream, {mimeType: 'audio/webm'});
+      recorderRef.current = new MediaRecorder(micStream, {mimeType: 'audio/webm'});
 
-      socket.addEventListener('message', msg => {
-        const data = JSON.parse(msg.data).channel.alternatives[0].transcript;
+      socketRef.current.addEventListener('message', msg => {
+        const data = JSON.parse(msg.data);
         console.log(data);
-        if (data) {
+        if (data.channel && data.channel.alternatives[0].transcript) {
           setTranscript(previous => {
-            return previous + " " + data
+            return previous + " " + data.channel.alternatives[0].transcript
           });
         }
       });
 
-      recorder.ondataavailable = (evt : any) => {
-        if (evt.data.size > 0 && socket.readyState == socket.OPEN) {
+      recorderRef.current.ondataavailable = (evt : any) => {
+        if (evt.data.size > 0 && socketRef.current.readyState == socketRef.current.OPEN) {
           console.log("data avaiable, sending through wss");
-          socket.send(evt.data)
+          socketRef.current.send(evt.data)
         }
       }
       
-      socket.addEventListener('close', () => {
-        recorder.stop();
+      socketRef.current.addEventListener('close', () => {
+        recorderRef.current.stop();
       });
 
-      recorder.onstop = () => {
+      recorderRef.current.onstop = () => {
       micStream.getTracks().forEach((track) => {
         track.stop();
       })
       
     }
     
-    recorder.start(250)
+    recorderRef.current.start(250)
 
     }
     
@@ -56,7 +56,7 @@ const Panel: React.FC = () => {
   
   return (
     <div className="container">
-      <Button onClick={handleStream}>Record</Button>
+      <Button onClick={handleStream}>{isStreaming ? "End Livestream" : "Start LiveStream"}</Button>
       <Typography>{transcript}</Typography>
     </div>
   );
