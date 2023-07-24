@@ -1,11 +1,12 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from './components/Header/Header'
 import  UrlDialog from './components/Dialog/Dialog';
 import './Popup.css';
 import { Box, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
 
 const Popup = () => {
+  const [user, setUser] = useState(null);
   const [transcript, setTranscript] = useState("This is transcript");
 
   // URl buttons
@@ -40,6 +41,18 @@ const Popup = () => {
     });
 
   }
+
+  useEffect(() => {
+    fetch("https://manage.deepgram.com/v1/auth/user", {
+      method: "GET"
+    }).then(async response => {
+      const user = await response.json();
+      setUser(user);
+    });
+  }, []);
+
+  
+
 
   return (
     <div className="App">
@@ -82,8 +95,31 @@ const Popup = () => {
 
       </List>
       <Box>
+        <UserInfo user={user}/>
+      </Box>
+      <Box>
         <Typography> {transcript} </Typography>
       </Box>
+    </div>
+  );
+};
+
+
+const UserInfo = ({user}) => {
+
+  return (
+    <div>
+      {
+        user ? (
+          <div>
+            <Typography> Hello {user.first_name}! </Typography>
+          </div>
+        ) : (
+          <div>
+            <Typography> <a href="https://console.deepgram.com/login" target='_blank'>Not Logged in?</a> </Typography>
+          </div>
+        )
+      }
     </div>
   );
 };
