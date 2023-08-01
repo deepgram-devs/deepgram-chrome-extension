@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useState, useEffect } from 'react';
 import Header from './components/Header/Header'
 import  UrlDialog from './components/Dialog/Dialog';
 import './Popup.css';
-import { Box, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
+import { Box, Divider, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
 
 const Popup = () => {
   const [user, setUser] = useState(null);
   const [transcript, setTranscript] = useState("This is transcript");
-
+  
   // URl buttons
   const [openDialog, setOpenDialog] = useState(false);
   const [url, setURl] = useState("");
@@ -60,7 +60,7 @@ const Popup = () => {
       <List>
         <ListItem>
           <ListItemButton>
-            <ListItemText primary="Record Audio"/>
+            <ListItemText primary="Livestream audio" onClick={handleMic}/>
           </ListItemButton>
         </ListItem>
 
@@ -77,7 +77,13 @@ const Popup = () => {
 
         <ListItem>
           <ListItemButton>
-            <ListItemText primary="Upload Audio File" />
+            <ListItemText primary="Record Audio(in dev)"/>
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem>
+          <ListItemButton>
+            <ListItemText primary="Upload Audio File(in dev)" />
           </ListItemButton>
         </ListItem>
 
@@ -87,18 +93,12 @@ const Popup = () => {
           </ListItemButton>
         </ListItem>
 
-        <ListItem>
-          <ListItemButton>
-            <ListItemText primary="Livestream audio" onClick={handleMic}/>
-          </ListItemButton>
-        </ListItem>
+        
 
       </List>
+      <Divider />
       <Box>
         <UserInfo user={user}/>
-      </Box>
-      <Box>
-        <Typography> {transcript} </Typography>
       </Box>
     </div>
   );
@@ -112,11 +112,11 @@ const UserInfo = ({user}) => {
       {
         user ? (
           <div>
-            <Typography> Hello {user.first_name}! </Typography>
+            <Typography> Hello {user.first_name} {user.last_name}! </Typography>
           </div>
         ) : (
           <div>
-            <Typography> <a href="https://console.deepgram.com/login" target='_blank'>Not Logged in?</a> </Typography>
+            <Typography> <a href="https://console.deepgram.com/login" target='_blank'>Login From Console</a> </Typography>
           </div>
         )
       }

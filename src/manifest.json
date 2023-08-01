@@ -6,7 +6,8 @@
     "cookies",
     "activeTab",
     "tabCapture", 
-    "scripting"],
+    "scripting"
+  ],
   "host_permissions": ["*://*.deepgram.com/*"],
   "options_page": "options.html",
   "background": { "service_worker": "background.bundle.js" },
