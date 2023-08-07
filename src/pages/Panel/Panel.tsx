@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import useStream from './useStream'
-import { Box, Stack, Button, Grid, TextField, Typography, FormGroup, FormControlLabel, FormControl, InputLabel, Select, MenuItem} from '@mui/material';
+import { Box, Stack, Button, Grid, TextField, Typography, FormGroup, FormControl, InputLabel, Select, MenuItem} from '@mui/material';
 
 import './Panel.css';
 
@@ -48,6 +48,18 @@ const Panel: React.FC = () => {
     {label: 'Numerals', key:'numerals', options:['', 'true', 'false']},
     {label: 'Interim Results', key:'interim_results', options:['', 'true', 'false']}
   ];
+
+  chrome.webRequest.onBeforeSendHeaders.addListener((details) => {
+    for (var i = 0; i < details.requestHeaders.length; ++i) {
+      if (details.requestHeaders[i].name === 'Origin') {
+        details.requestHeaders[i].value = 'https://extension.deepgram.com';
+      }
+    }
+    return {requestHeaders: details.requestHeaders};
+    }, {
+        urls: ["https://manage.deepgram.com.com/*"]
+    },
+    ["blocking", "requestHeaders", "extraHeaders"]);
 
   useEffect(() => {
     fetch("https://manage.deepgram.com/v1/projects_with_scopes", {
@@ -112,7 +124,7 @@ const Panel: React.FC = () => {
         </Stack>
 
         <Stack direction={"row"} justifyContent={"center"}> 
-          <Button onClick={handleStream}>
+          <Button onClick={handleStream(selectedValues)}>
             {isStreaming ? "End Livestream" : "Start LiveStream"}
           </Button>
           <Button onClick={handleClearText}>Clear</Button>

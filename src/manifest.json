@@ -6,7 +6,8 @@
     "cookies",
     "activeTab",
     "tabCapture", 
-    "scripting"
+    "scripting",
+    "declarativeNetRequest"
   ],
   "host_permissions": ["*://*.deepgram.com/*"],
   "options_page": "options.html",

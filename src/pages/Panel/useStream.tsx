@@ -7,60 +7,73 @@ const useStream = () => {
     const socketRef = useRef<WebSocket>(null);
     const recorderRef = useRef<MediaRecorder>(null);
 
-    const handleStream = async () => {
-        if (isStreaming) {
-            setIsStreaming(false);  
-            if (socketRef.current) socketRef.current.close();
-        } else {
-            setIsStreaming(true);
-            socketRef.current = new WebSocket('wss://api.deepgram.com/v1/listen?smart_format=true&diarize=true', ['token', secret.APIKey])
-            const screenStream = await(navigator.mediaDevices.getDisplayMedia({audio: true}));
-            const micStream = await navigator.mediaDevices.getUserMedia({audio: true});
-            
-            const audioContext = new AudioContext();
-            const mixed = mix(audioContext, [screenStream, micStream])
-            recorderRef.current = new MediaRecorder(mixed, {mimeType: 'audio/webm'});
-            
-            socketRef.current.addEventListener('message', msg => {
-                const data = JSON.parse(msg.data);
-                console.log(data);
-                if (!data.channel) {
-                // Server will send  metadata if it closes the connection. 
-                    if (socketRef.current) socketRef.current.close();
-                    if (recorderRef.current) recorderRef.current.stop();
-                    setIsStreaming(false);
-                    return;
-            } else if (data.channel) {
-                    setTranscript(previous => {
-                        return previous + formatTranscription(data, {"diarize": true});
-                    });
+    const handleStream = (options) => {
+        var queryString = "";
+        for (const key in options) {
+            const value = options[key];
+            if (queryString.length > 0) {
+                queryString += ("&" + key + "=" + value)
+            } else {
+                queryString = (key + "=" + value);
             }
-        });
-        
-        recorderRef.current.ondataavailable = (evt : any) => {
-            if (socketRef.current && evt.data.size > 0 
-                && socketRef.current.readyState == socketRef.current.OPEN) {
-                    console.log("data avaiable, sending through wss");
-                    socketRef.current.send(evt.data)
-                }
-            }
-      
-        socketRef.current.addEventListener('close', () => {
-            if (recorderRef.current) recorderRef.current.stop();
-        });
-        
-        recorderRef.current.onstop = () => {
-            micStream.getTracks().forEach((track) => {
-                track.stop();
-            })
-            screenStream.getTracks().forEach((track) => {
-                track.stop();
-            })
         }
-        
-        recorderRef.current.start(250)
 
+
+        return async () => {
+            if (isStreaming) {
+                setIsStreaming(false);  
+                if (socketRef.current) socketRef.current.close();
+            } else {
+                setIsStreaming(true);
+                console.log("queryString: ", queryString);
+                socketRef.current = new WebSocket(`wss://api.deepgram.com/v1/listen?${queryString}`, ['token', secret.APIKey])
+                const screenStream = await(navigator.mediaDevices.getDisplayMedia({audio: true}));
+                const micStream = await navigator.mediaDevices.getUserMedia({audio: true});
+                
+                const audioContext = new AudioContext();
+                const mixed = mix(audioContext, [screenStream, micStream])
+                recorderRef.current = new MediaRecorder(mixed, {mimeType: 'audio/webm'});
+                
+                socketRef.current.addEventListener('message', msg => {
+                    const data = JSON.parse(msg.data);
+                    console.log(data);
+                    if (!data.channel) {
+                    // Server will send  metadata if it closes the connection. 
+                        if (socketRef.current) socketRef.current.close();
+                        if (recorderRef.current) recorderRef.current.stop();
+                        setIsStreaming(false);
+                        return;
+                } else if (data.channel) {
+                        setTranscript(previous => {
+                            return previous + formatTranscription(data, options);
+                        });
+                }
+            });
+            
+            recorderRef.current.ondataavailable = (evt : any) => {
+                if (socketRef.current && evt.data.size > 0 
+                    && socketRef.current.readyState == socketRef.current.OPEN) {
+                        console.log("data avaiable, sending through wss");
+                        socketRef.current.send(evt.data)
+                    }
+                }
+          
+            socketRef.current.addEventListener('close', () => {
+                if (recorderRef.current) recorderRef.current.stop();
+            });
+            
+            recorderRef.current.onstop = () => {
+                micStream.getTracks().forEach((track) => {
+                    track.stop();
+                })
+                screenStream.getTracks().forEach((track) => {
+                    track.stop();
+                })
+            }
+            
+            recorderRef.current.start(500)
     }
+        } 
 }
     const handleClearText = () => {
         setTranscript("");
@@ -87,6 +100,7 @@ const useStream = () => {
     
     // 
     const formatTranscription = (data: any, options: any) : string => {
+        console.log(options);
         let result = data.channel.alternatives[0];
         if (options.diarize) {
             let speakers = {};
