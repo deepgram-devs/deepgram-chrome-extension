@@ -9,7 +9,7 @@ const Panel: React.FC = () => {
   const [projectId, setProjectId] = useState("");
   
   const [selectedValues, setSelectedValues] = useState({});
-  const [queryString, setQueryString] = useState("")
+  const [key, setKey] = useState("")
   const handleDropdownChange = (event) => {
     const newSelectedValues = {...selectedValues};
     if (event.target.value) {
@@ -19,18 +19,7 @@ const Panel: React.FC = () => {
     }
 
     console.log(newSelectedValues);
-    var queryString = "";
-    for (const key in newSelectedValues) {
-      const value = newSelectedValues[key];
-      if (queryString.length > 0) {
-        queryString += ("&" + key + "=" + value)
-      } else {
-        queryString = (key + "=" + value);
-      }
-    }
-
     setSelectedValues(newSelectedValues);
-    setQueryString(queryString);
   };
 
   const queryParams = [
@@ -49,19 +38,32 @@ const Panel: React.FC = () => {
     {label: 'Interim Results', key:'interim_results', options:['', 'true', 'false']}
   ];
 
-  chrome.webRequest.onBeforeSendHeaders.addListener((details) => {
-    for (var i = 0; i < details.requestHeaders.length; ++i) {
-      if (details.requestHeaders[i].name === 'Origin') {
-        details.requestHeaders[i].value = 'https://extension.deepgram.com';
-      }
-    }
-    return {requestHeaders: details.requestHeaders};
-    }, {
-        urls: ["https://manage.deepgram.com.com/*"]
-    },
-    ["blocking", "requestHeaders", "extraHeaders"]);
-
   useEffect(() => {
+    chrome.declarativeNetRequest.updateDynamicRules(
+      {
+          addRules: [{
+              "id": 1,
+              "priority": 1,
+              "action": {
+                  type: 'modifyHeaders',
+                  requestHeaders: [
+                      { 
+                        header: 'origin', 
+                        operation: 'set', 
+                        value: "https://extension.deepgram.com" 
+                      }
+                  ],
+              },
+              "condition": { 
+                "urlFilter": "https://manage.deepgram.com", 
+                "initiatorDomains": ["galjhlnbbjhaihlbhnanjgpndjmjipfn"],
+                "resourceTypes": ["xmlhttprequest"] }
+          }
+          ],
+          removeRuleIds: [1]
+      },
+  );
+
     fetch("https://manage.deepgram.com/v1/projects_with_scopes", {
       method: "GET",
     })
@@ -72,24 +74,26 @@ const Panel: React.FC = () => {
       return id;
     })
     .then((id) => {
-      // const payload = {
-      //   "comment": "auto generated api chrome extension key",
-      //   "scopes": ["member"],
-      //   "time_to_live_in_seconds": 300,
-      // };
-
-      // return fetch(`https://manage.deepgram.com/v1/projects/${id}/keys`, {
-      //   method: "POST",
-      //   body: JSON.stringify(payload),
-      // })
+      const payload = {
+        "comment": "auto generated api chrome extension key",
+        "dg_internal_tags": [],
+        "scopes": ["member"],
+        "time_to_live_in_seconds": 300,
+      };
 
       return fetch(`https://manage.deepgram.com/v1/projects/${id}/keys`, {
-        method: "GET"
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
       })
+
     })
     .then(async (response) => {
-      const { apiKeys } = await response.json();
-      console.log(apiKeys);
+      const { apiKey } = await response.json();
+      setKey(apiKey);
     });
   }, []); 
   
@@ -124,7 +128,7 @@ const Panel: React.FC = () => {
         </Stack>
 
         <Stack direction={"row"} justifyContent={"center"}> 
-          <Button onClick={handleStream(selectedValues)}>
+          <Button onClick={handleStream(selectedValues, key)}>
             {isStreaming ? "End Livestream" : "Start LiveStream"}
           </Button>
           <Button onClick={handleClearText}>Clear</Button>
