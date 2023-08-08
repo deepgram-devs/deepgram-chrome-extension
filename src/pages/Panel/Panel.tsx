@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useStream from './useStream'
 import { Box, Stack, Button, Grid, TextField, Typography, FormGroup, FormControl, InputLabel, Select, MenuItem} from '@mui/material';
 
@@ -9,7 +9,8 @@ const Panel: React.FC = () => {
   const [projectId, setProjectId] = useState("");
   
   const [selectedValues, setSelectedValues] = useState({});
-  const [key, setKey] = useState("")
+  const [apikey, setKey] = useState("")
+  const keyRef = useRef();
   const handleDropdownChange = (event) => {
     const newSelectedValues = {...selectedValues};
     if (event.target.value) {
@@ -68,6 +69,7 @@ const Panel: React.FC = () => {
       method: "GET",
     })
     .then(async response => {
+      // TODO: Support selection of project id 
       const { projects } = await response.json();
       const id = projects[0]["project_id"]
       setProjectId(id);
@@ -92,11 +94,16 @@ const Panel: React.FC = () => {
 
     })
     .then(async (response) => {
-      const { apiKey } = await response.json();
-      setKey(apiKey);
+      const { key } = await response.json();
+      console.log("fetch: ", key);
+      setKey(key);
     });
   }, []); 
   
+  useEffect(() => {
+    console.log("use effect:", apikey)
+    keyRef.current = apikey;
+  }, [apikey])
   return (
       <Stack direction={"column"} >
 
@@ -128,7 +135,7 @@ const Panel: React.FC = () => {
         </Stack>
 
         <Stack direction={"row"} justifyContent={"center"}> 
-          <Button onClick={handleStream(selectedValues, key)}>
+          <Button onClick={() => handleStream(selectedValues, keyRef.current)}>
             {isStreaming ? "End Livestream" : "Start LiveStream"}
           </Button>
           <Button onClick={handleClearText}>Clear</Button>

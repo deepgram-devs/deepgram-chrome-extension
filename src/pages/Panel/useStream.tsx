@@ -1,5 +1,4 @@
 import { useState, useRef } from "react";
-import secret from '../../../secrets.development'
 
 const useStream = () => {
     const [transcript, setTranscript] = useState("");
@@ -7,7 +6,8 @@ const useStream = () => {
     const socketRef = useRef<WebSocket>(null);
     const recorderRef = useRef<MediaRecorder>(null);
 
-    const handleStream = (options) => {
+    const handleStream = async (options, key) => {
+        console.log(key);
         var queryString = "";
         for (const key in options) {
             const value = options[key];
@@ -18,15 +18,12 @@ const useStream = () => {
             }
         }
 
-
-        return async () => {
             if (isStreaming) {
                 setIsStreaming(false);  
                 if (socketRef.current) socketRef.current.close();
             } else {
                 setIsStreaming(true);
-                console.log("queryString: ", queryString);
-                socketRef.current = new WebSocket(`wss://api.deepgram.com/v1/listen?${queryString}`, ['token', secret.APIKey])
+                socketRef.current = new WebSocket(`wss://api.deepgram.com/v1/listen?${queryString}`, ['token', key])
                 const screenStream = await(navigator.mediaDevices.getDisplayMedia({audio: true}));
                 const micStream = await navigator.mediaDevices.getUserMedia({audio: true});
                 
@@ -71,9 +68,9 @@ const useStream = () => {
                 })
             }
             
-            recorderRef.current.start(500)
+            recorderRef.current.start(500);
     }
-        } 
+        
 }
     const handleClearText = () => {
         setTranscript("");
