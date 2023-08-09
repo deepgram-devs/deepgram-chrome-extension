@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import useStream from './useStream'
-import { Box, Stack, Button, TextField, Typography, FormGroup, FormControl, InputLabel, Select, MenuItem} from '@mui/material';
+import { Stack, Button, TextField, Typography} from '@mui/material';
 
 import './Panel.css';
 
@@ -8,36 +8,9 @@ const Panel: React.FC = () => {
   const {transcript, isStreaming, handleStream, handleClearText} = useStream();
   const [projects, setProjects] = useState({});
   const [selectedProject, setSelectedProject] = useState("");
-  const [selectedValues, setSelectedValues] = useState({});
 
   const tokenRef = useRef();
-  const handleDropdownChange = (event) => {
-    const newSelectedValues = {...selectedValues};
-    if (event.target.value) {
-      newSelectedValues[event.target.name] = event.target.value;
-    } else {
-      delete newSelectedValues[event.target.name];
-    }
 
-    console.log(newSelectedValues);
-    setSelectedValues(newSelectedValues);
-  };
-
-  const queryParams = [
-    {label: 'Model', key: 'model', options: ['general', 'meeting', 'phonecall', '']},
-    {label: 'Tier', key: 'tier', options: ['', 'enhanced', 'base']},
-    {label: 'Languages', key: 'language', options:['', 'da', 'en', 'en-AU', 'en-GB', 'en-IN', 'en-NZ',
-    'en-US', 'es', 'es-419', 'fr', 'fr-CA', 'hi', 'hi-Latn', 'id',
-    'it', 'ja', 'ko', 'nl', 'pl', 'pt', 'pt-PT', 'pt-BR', 'ru', 'sv',
-    'tr', 'uk', 'zh-CN', 'zh-TW']},
-    {label: 'Punctuate', key: 'punctuate', options:['', 'true', 'false']},
-    {label: 'Profanity Filter', key:'profanity_filter', options:['', 'true', 'false']},
-    {label: 'Diarize', key:'diarize', options:['', 'true', 'false']},
-    {label: 'Smart Format', key:'smart_format', options:['', 'true', 'false']},
-    {label: 'Multichannel', key:'multichannel', options:['', 'true', 'false']},
-    {label: 'Numerals', key:'numerals', options:['', 'true', 'false']},
-    {label: 'Interim Results', key:'interim_results', options:['', 'true', 'false']}
-  ];
 
   useEffect(() => {
     chrome.declarativeNetRequest.updateDynamicRules(
@@ -106,31 +79,8 @@ const Panel: React.FC = () => {
           <Typography> {selectedProject} </Typography>
         </Stack>
 
-        <Stack>
-          <Box sx={{padding: 2}}>
-          <FormGroup>
-            {queryParams.map((param, index) => (
-            <FormControl key={index} variant="outlined">
-              <InputLabel>{param.label}</InputLabel>
-              <Select
-                key={index}
-                name={param.key}
-                value={selectedValues[param.key] || ''}
-                onChange={handleDropdownChange}
-              > 
-                {param.options.map((option, idx) => {
-                  return <MenuItem key={idx} value={option}>{option}</MenuItem>
-                })}
-              </Select>
-            </FormControl>
-            ))}
-          </FormGroup>
-          </Box>
-          
-        </Stack>
-
         <Stack direction={"row"} justifyContent={"center"}> 
-          <Button onClick={() => handleStream(selectedValues, tokenRef.current)}>
+          <Button onClick={async () => handleStream(tokenRef.current)}>
             {isStreaming ? "End Livestream" : "Start LiveStream"}
           </Button>
           <Button onClick={handleClearText}>Clear</Button>

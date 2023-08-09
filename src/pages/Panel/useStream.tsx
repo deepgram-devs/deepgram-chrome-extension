@@ -6,10 +6,11 @@ const useStream = () => {
     const socketRef = useRef<WebSocket>(null);
     const recorderRef = useRef<MediaRecorder>(null);
 
-    const handleStream = async (options, token) => {
+    const handleStream = async (token) => {
+        const { livestreamOptions } = await chrome.storage.sync.get("livestreamOptions");
         var queryString = "";
-        for (const key in options) {
-            const value = options[key];
+        for (const key in livestreamOptions) {
+            const value = livestreamOptions[key];
             if (queryString.length > 0) {
                 queryString += ("&" + key + "=" + value)
             } else {
@@ -17,34 +18,34 @@ const useStream = () => {
             }
         }
 
-            if (isStreaming) {
-                setIsStreaming(false);  
-                if (socketRef.current) socketRef.current.close();
-            } else {
-                setIsStreaming(true);
-                socketRef.current = new WebSocket(`wss://api.deepgram.com/v1/listen?${queryString}`, ['token', token])
-                const screenStream = await(navigator.mediaDevices.getDisplayMedia({audio: true}));
-                const micStream = await navigator.mediaDevices.getUserMedia({audio: true});
+        if (isStreaming) {
+            setIsStreaming(false);  
+            if (socketRef.current) socketRef.current.close();
+        } else {
+            setIsStreaming(true);
+            socketRef.current = new WebSocket(`wss://api.deepgram.com/v1/listen?${queryString}`, ['token', token])
+            const screenStream = await(navigator.mediaDevices.getDisplayMedia({audio: true}));
+            const micStream = await navigator.mediaDevices.getUserMedia({audio: true});
                 
-                const audioContext = new AudioContext();
-                const mixed = mix(audioContext, [screenStream, micStream])
-                recorderRef.current = new MediaRecorder(mixed, {mimeType: 'audio/webm'});
+            const audioContext = new AudioContext();
+            const mixed = mix(audioContext, [screenStream, micStream])
+            recorderRef.current = new MediaRecorder(mixed, {mimeType: 'audio/webm'});
                 
-                socketRef.current.addEventListener('message', msg => {
-                    const data = JSON.parse(msg.data);
-                    console.log(data);
-                    if (!data.channel) {
-                    // Server will send  metadata if it closes the connection. 
-                        if (socketRef.current) socketRef.current.close();
-                        if (recorderRef.current) recorderRef.current.stop();
-                        setIsStreaming(false);
-                        return;
+            socketRef.current.addEventListener('message', msg => {
+                const data = JSON.parse(msg.data);
+                console.log(data);
+                if (!data.channel) {
+                // Server will send metadata if it closes the connection. 
+                    if (socketRef.current) socketRef.current.close();
+                    if (recorderRef.current) recorderRef.current.stop();
+                    setIsStreaming(false);
+                    return;
                 } else if (data.channel) {
-                        setTranscript(previous => {
-                            return previous + formatTranscription(data, options);
-                        });
-                }
-            });
+                    setTranscript(previous => {
+                        return previous + formatTranscription(data, livestreamOptions);
+                    });
+            }
+        });
             
             recorderRef.current.ondataavailable = (evt : any) => {
                 if (socketRef.current && evt.data.size > 0 
@@ -96,7 +97,7 @@ const useStream = () => {
     
     // 
     const formatTranscription = (data: any, options: any) : string => {
-        console.log(options);
+        console.log("options: ", options);
         let result = data.channel.alternatives[0];
         if (options.diarize) {
             let speakers = {};
