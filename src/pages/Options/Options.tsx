@@ -14,6 +14,7 @@ const queryParams = [
   {label: 'Profanity Filter', key:'profanity_filter', options:['', 'true', 'false']},
   {label: 'Diarize', key:'diarize', options:['', 'true', 'false']},
   {label: 'Smart Format', key:'smart_format', options:['', 'true', 'false']},
+  {label: 'Filler Words', key:'filler_words', options:['', 'true', 'false']},
   {label: 'Multichannel', key:'multichannel', options:['', 'true', 'false']},
   {label: 'Numerals', key:'numerals', options:['', 'true', 'false']},
   {label: 'Interim Results', key:'interim_results', options:['', 'true', 'false']}

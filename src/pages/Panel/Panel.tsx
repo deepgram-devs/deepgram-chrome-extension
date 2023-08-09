@@ -71,6 +71,21 @@ const Panel: React.FC = () => {
       tokenRef.current = key;
     });
   }, []); 
+
+  const handleDownload = (text : string) => {
+    return () => {
+      const file = new Blob([text], {type: "text/plain"});
+      let a = document.createElement("a");
+      document.body.appendChild(a);
+      a.style = "display: none";
+      const url = URL.createObjectURL(file);
+      a.download = "transcript.txt";
+      a.href = url;
+      a.click();
+      URL.revokeObjectURL(a.href)
+      a.remove();
+    }
+  }
   
   return (
       <Stack direction={"column"} >
@@ -99,6 +114,7 @@ const Panel: React.FC = () => {
         </Container>
 
         <Stack direction={"row"} justifyContent={"center"}> 
+          <Button onClick={handleDownload(transcript)}> Download Transcript </Button>
           <Button> Download STT </Button>
           <Button> Download WebVTT </Button>
         </Stack>

@@ -24,3 +24,20 @@ export const formatTranscription = (data: any, options: any) : string => {
         return transcript;
     }
 }
+
+export const toWebVTT = (results : Array<any>) : string => {
+    if (results.length === 0) return "";
+
+    const lines: string[] = [];
+    lines.push("WEBVTT");
+    lines.push("");
+    lines.push("NOTE");
+    lines.push("Transcription provided by Deepgram");
+    lines.push(`Request Id: `);
+    lines.push(`Created: `);
+    lines.push(`Duration: `);
+    lines.push(`Channels: `);
+    lines.push("");
+
+    return lines.join("\n");    
+  }

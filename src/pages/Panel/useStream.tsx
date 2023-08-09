@@ -3,6 +3,7 @@ import { formatTranscription } from "./utils";
 
 const useStream = () => {
     const [transcript, setTranscript] = useState("");
+    const resultRef = useRef([]);
     const [isStreaming, setIsStreaming] = useState(false);
     const socketRef = useRef<WebSocket | null>(null);
     const recorderRef = useRef<MediaRecorder | null>(null);
@@ -53,7 +54,6 @@ const useStream = () => {
             }
                 
             const audioContext = new AudioContext();
-            console.log(screenStream);
             const mixed = mix(audioContext, [screenStream, micStream])
             recorderRef.current = new MediaRecorder(mixed, {mimeType: 'audio/webm'});
                 
@@ -68,6 +68,7 @@ const useStream = () => {
                     setIsStreaming(false);
                     return;
                 } else if (data.channel) {
+                    resultRef.current.concat(data);
                     setTranscript(previous => {
                         return previous + formatTranscription(data, livestreamOptions);
                     });
@@ -107,13 +108,14 @@ const useStream = () => {
     const handleClearText = () => {
         setTranscript("");
     }
-
-  return {
-    transcript, 
-    isStreaming,
-    handleStream,
-    handleClearText
-  }
+    
+    return {
+        transcript, 
+        isStreaming,
+        handleStream,
+        handleClearText,
+        // handleToSRT
+    }
 }
 
     
