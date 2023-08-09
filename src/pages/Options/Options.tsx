@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Options.css';
-import { Container, Button, FormGroup, FormControl, InputLabel, Select, MenuItem} from '@mui/material';
+import { Box, Container, Button, FormGroup, FormControl, InputLabel, Select, MenuItem} from '@mui/material';
 
 
 const queryParams = [
@@ -19,8 +19,9 @@ const queryParams = [
   {label: 'Interim Results', key:'interim_results', options:['', 'true', 'false']}
 ];
 
-const Options: React.FC<Props> = () => {
+const Options: React.FC = () => {
   const [selectedOptions, setselectedOptions] = useState({});
+  
 
   useEffect(() => {
     chrome.storage.sync.get("livestreamOptions")
@@ -70,8 +71,23 @@ const Options: React.FC<Props> = () => {
             ))}
       </FormGroup>
      </Container>
-      <Container maxWidth="sm" align="center">
-        <Button onClick={handleSave}> Save Options </Button>
+     <Container maxWidth="sm">
+      <Box
+        display="flex" 
+        justifyContent="center" 
+        alignItems="center"
+      >
+
+      </Box>
+     </Container>
+      <Container maxWidth="sm">
+        <Box
+          display="flex" 
+          justifyContent="center" 
+          alignItems="center"
+        >
+          <Button onClick={handleSave}> Save Options </Button>
+        </Box>
       </Container>
       
         

@@ -1,12 +1,13 @@
 import { useState, useRef } from "react";
+import { formatTranscription } from "./utils";
 
 const useStream = () => {
     const [transcript, setTranscript] = useState("");
     const [isStreaming, setIsStreaming] = useState(false);
-    const socketRef = useRef<WebSocket>(null);
-    const recorderRef = useRef<MediaRecorder>(null);
+    const socketRef = useRef<WebSocket | null>(null);
+    const recorderRef = useRef<MediaRecorder | null>(null);
 
-    const handleStream = async (token) => {
+    const handleStream = async (token : string) => {
         const { livestreamOptions } = await chrome.storage.sync.get("livestreamOptions");
         var queryString = "";
         for (const key in livestreamOptions) {
@@ -21,13 +22,38 @@ const useStream = () => {
         if (isStreaming) {
             setIsStreaming(false);  
             if (socketRef.current) socketRef.current.close();
+            if (recorderRef.current) recorderRef.current.stop();
         } else {
             setIsStreaming(true);
-            socketRef.current = new WebSocket(`wss://api.deepgram.com/v1/listen?${queryString}`, ['token', token])
-            const screenStream = await(navigator.mediaDevices.getDisplayMedia({audio: true}));
-            const micStream = await navigator.mediaDevices.getUserMedia({audio: true});
+            socketRef.current = new WebSocket(`wss://api.deepgram.com/v1/listen?${queryString}`, ['token', token]);
+            socketRef.current.addEventListener('error', (err) => {
+                setIsStreaming(false);
+                if (socketRef.current) socketRef.current.close();
+                if (recorderRef.current) recorderRef.current.stop();
+                console.error(err);
+            });
+
+
+            let screenStream : MediaStream | null = null;
+            let micStream : MediaStream | null = null;
+            try {
+                screenStream = await navigator.mediaDevices.getDisplayMedia({audio: true});
+            } catch (err) {
+                if (err.name !== 'NotAllowedError') {
+                    console.error(err);
+                }
+            }
+            
+            try {
+                micStream = await navigator.mediaDevices.getUserMedia({audio: true});
+            } catch (err) {
+                if (err.name !== 'NotAllowedError') {
+                    console.error(err);
+                }
+            }
                 
             const audioContext = new AudioContext();
+            console.log(screenStream);
             const mixed = mix(audioContext, [screenStream, micStream])
             recorderRef.current = new MediaRecorder(mixed, {mimeType: 'audio/webm'});
                 
@@ -36,6 +62,7 @@ const useStream = () => {
                 console.log(data);
                 if (!data.channel) {
                 // Server will send metadata if it closes the connection. 
+                // Todo: tell user to restart
                     if (socketRef.current) socketRef.current.close();
                     if (recorderRef.current) recorderRef.current.stop();
                     setIsStreaming(false);
@@ -60,12 +87,17 @@ const useStream = () => {
             });
             
             recorderRef.current.onstop = () => {
-                micStream.getTracks().forEach((track) => {
-                    track.stop();
-                })
-                screenStream.getTracks().forEach((track) => {
-                    track.stop();
-                })
+                if (micStream) {
+                    micStream.getTracks().forEach((track) => {
+                        track.stop();
+                    })
+                }
+                
+                if (screenStream) {
+                    screenStream.getTracks().forEach((track) => {
+                        track.stop();
+                    })
+                }
             }
             
             recorderRef.current.start(500);
@@ -86,43 +118,17 @@ const useStream = () => {
 
     
     // https://stackoverflow.com/a/47071576
-    const mix = (audioContext: AudioContext, streams: Array<MediaStream>) => {
-        const dest = audioContext.createMediaStreamDestination()
+    const mix = (audioContext: AudioContext, streams: Array<MediaStream | null>) => {
+        const dest = audioContext.createMediaStreamDestination();
         streams.forEach(stream => {
-            const source = audioContext.createMediaStreamSource(stream)
-            source.connect(dest);
+            if (stream) {
+                const source = audioContext.createMediaStreamSource(stream)
+                source.connect(dest);
+            }
         })
         return dest.stream
     }
     
-    // 
-    const formatTranscription = (data: any, options: any) : string => {
-        console.log("options: ", options);
-        let result = data.channel.alternatives[0];
-        if (options.diarize) {
-            let speakers = {};
-            result.words.forEach(wordBase => {
-                let {speaker, word} = wordBase;
-                speaker = speaker.toString();
-                if (speakers[speaker]) {
-                    speakers[speaker] += (" " + word);
-                } else {
-                    speakers[speaker] = word;
-                }
-            });
-            
-            let transcript = "";
-            for (const speaker in speakers) {
-                transcript += ("[Speaker " + speaker + "] " + speakers[speaker] + "\n");
-            }
-            return transcript;
-        } else {
-            let transcript = result.transcript;
-            if (".?!".includes(transcript.slice(-1))) transcript += "\n";
-            return transcript;
-        }
-    }
-
   
 
 export default useStream;

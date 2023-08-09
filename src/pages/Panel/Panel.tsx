@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import useStream from './useStream'
-import { Stack, Button, TextField, Typography} from '@mui/material';
+import { Container, Stack, Button, TextField, Typography} from '@mui/material';
 
 import './Panel.css';
 
@@ -9,7 +9,7 @@ const Panel: React.FC = () => {
   const [projects, setProjects] = useState({});
   const [selectedProject, setSelectedProject] = useState("");
 
-  const tokenRef = useRef();
+  const tokenRef = useRef("");
 
 
   useEffect(() => {
@@ -84,18 +84,24 @@ const Panel: React.FC = () => {
             {isStreaming ? "End Livestream" : "Start LiveStream"}
           </Button>
           <Button onClick={handleClearText}>Clear</Button>
-          <Button> Download STT </Button>
-          <Button> Download WebVTT </Button>
         </Stack>
 
+        <Container maxWidth="md">
         <TextField 
           multiline
+          fullWidth
           variant='filled'
           value={transcript} 
           minRows={20} 
-          maxRows={100} 
+          maxRows={50} 
           placeholder="Your Transcript Is Here">            
         </TextField>
+        </Container>
+
+        <Stack direction={"row"} justifyContent={"center"}> 
+          <Button> Download STT </Button>
+          <Button> Download WebVTT </Button>
+        </Stack>
 
       </Stack>
   );
