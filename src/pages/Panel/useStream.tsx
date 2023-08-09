@@ -6,8 +6,7 @@ const useStream = () => {
     const socketRef = useRef<WebSocket>(null);
     const recorderRef = useRef<MediaRecorder>(null);
 
-    const handleStream = async (options, key) => {
-        console.log(key);
+    const handleStream = async (options, token) => {
         var queryString = "";
         for (const key in options) {
             const value = options[key];
@@ -23,7 +22,7 @@ const useStream = () => {
                 if (socketRef.current) socketRef.current.close();
             } else {
                 setIsStreaming(true);
-                socketRef.current = new WebSocket(`wss://api.deepgram.com/v1/listen?${queryString}`, ['token', key])
+                socketRef.current = new WebSocket(`wss://api.deepgram.com/v1/listen?${queryString}`, ['token', token])
                 const screenStream = await(navigator.mediaDevices.getDisplayMedia({audio: true}));
                 const micStream = await navigator.mediaDevices.getUserMedia({audio: true});
                 

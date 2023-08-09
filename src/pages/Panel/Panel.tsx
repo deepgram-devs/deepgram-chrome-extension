@@ -1,16 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import useStream from './useStream'
-import { Box, Stack, Button, Grid, TextField, Typography, FormGroup, FormControl, InputLabel, Select, MenuItem} from '@mui/material';
+import { Box, Stack, Button, TextField, Typography, FormGroup, FormControl, InputLabel, Select, MenuItem} from '@mui/material';
 
 import './Panel.css';
 
 const Panel: React.FC = () => {
   const {transcript, isStreaming, handleStream, handleClearText} = useStream();
-  const [projectId, setProjectId] = useState("");
-  
+  const [projects, setProjects] = useState({});
+  const [selectedProject, setSelectedProject] = useState("");
   const [selectedValues, setSelectedValues] = useState({});
-  const [apikey, setKey] = useState("")
-  const keyRef = useRef();
+
+  const tokenRef = useRef();
   const handleDropdownChange = (event) => {
     const newSelectedValues = {...selectedValues};
     if (event.target.value) {
@@ -71,8 +71,9 @@ const Panel: React.FC = () => {
     .then(async response => {
       // TODO: Support selection of project id 
       const { projects } = await response.json();
+      setProjects(projects);
       const id = projects[0]["project_id"]
-      setProjectId(id);
+      setSelectedProject(id);
       return id;
     })
     .then((id) => {
@@ -91,24 +92,18 @@ const Panel: React.FC = () => {
         },
         body: JSON.stringify(payload),
       })
-
     })
     .then(async (response) => {
       const { key } = await response.json();
-      console.log("fetch: ", key);
-      setKey(key);
+      tokenRef.current = key;
     });
   }, []); 
   
-  useEffect(() => {
-    console.log("use effect:", apikey)
-    keyRef.current = apikey;
-  }, [apikey])
   return (
       <Stack direction={"column"} >
 
         <Stack direction={"row"}>
-          <Typography> {projectId} </Typography>
+          <Typography> {selectedProject} </Typography>
         </Stack>
 
         <Stack>
@@ -135,7 +130,7 @@ const Panel: React.FC = () => {
         </Stack>
 
         <Stack direction={"row"} justifyContent={"center"}> 
-          <Button onClick={() => handleStream(selectedValues, keyRef.current)}>
+          <Button onClick={() => handleStream(selectedValues, tokenRef.current)}>
             {isStreaming ? "End Livestream" : "Start LiveStream"}
           </Button>
           <Button onClick={handleClearText}>Clear</Button>
