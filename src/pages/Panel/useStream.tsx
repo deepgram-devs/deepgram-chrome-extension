@@ -68,7 +68,7 @@ const useStream = () => {
                     setIsStreaming(false);
                     return;
                 } else if (data.channel) {
-                    resultRef.current.concat(data);
+                    resultRef.current.push(data);
                     setTranscript(previous => {
                         return previous + formatTranscription(data, livestreamOptions);
                     });
@@ -101,7 +101,7 @@ const useStream = () => {
                 }
             }
             
-            recorderRef.current.start(500);
+            recorderRef.current.start(1000);
     }
         
 }
@@ -112,6 +112,7 @@ const useStream = () => {
     return {
         transcript, 
         isStreaming,
+        resultRef,
         handleStream,
         handleClearText,
         // handleToSRT

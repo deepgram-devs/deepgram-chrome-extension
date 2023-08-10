@@ -3,9 +3,10 @@ import useStream from './useStream'
 import { Container, Stack, Button, TextField, Typography} from '@mui/material';
 
 import './Panel.css';
+import { toWebVTT } from './utils';
 
 const Panel: React.FC = () => {
-  const {transcript, isStreaming, handleStream, handleClearText} = useStream();
+  const {transcript, isStreaming, resultRef, handleStream, handleClearText} = useStream();
   const [projects, setProjects] = useState({});
   const [selectedProject, setSelectedProject] = useState("");
 
@@ -72,19 +73,32 @@ const Panel: React.FC = () => {
     });
   }, []); 
 
-  const handleDownload = (text : string) => {
-    return () => {
-      const file = new Blob([text], {type: "text/plain"});
-      let a = document.createElement("a");
-      document.body.appendChild(a);
-      a.style = "display: none";
-      const url = URL.createObjectURL(file);
-      a.download = "transcript.txt";
-      a.href = url;
-      a.click();
-      URL.revokeObjectURL(a.href)
-      a.remove();
+  const handleDownload = (e) => {
+    let text: string = "";
+    switch (e.target.name) {
+      case "transcript":
+        text = transcript;
+        break;
+      case "WebVTT":
+        text = toWebVTT(resultRef.current);
+        break;
+      case "STT":
+        text = "";
+        break;
+      default: 
+        console.error("Unsupported option");
     }
+    const file = new Blob([text], {type: "text/plain"});
+    let a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+    const url = URL.createObjectURL(file);
+    a.download = "transcript.txt";
+    a.href = url;
+    a.click();
+    URL.revokeObjectURL(a.href)
+    a.remove();
+    
   }
   
   return (
@@ -108,15 +122,15 @@ const Panel: React.FC = () => {
           variant='filled'
           value={transcript} 
           minRows={20} 
-          maxRows={50} 
+          maxRows={30} 
           placeholder="Your Transcript Is Here">            
         </TextField>
         </Container>
 
         <Stack direction={"row"} justifyContent={"center"}> 
-          <Button onClick={handleDownload(transcript)}> Download Transcript </Button>
-          <Button> Download STT </Button>
-          <Button> Download WebVTT </Button>
+          <Button name="transcript" onClick={handleDownload}> Download Transcript </Button>
+          <Button name="STT" onClick={handleDownload}> Download STT </Button>
+          <Button name="WebVTT" onClick={handleDownload}> Download WebVTT </Button>
         </Stack>
 
       </Stack>
