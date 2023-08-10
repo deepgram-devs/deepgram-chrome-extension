@@ -115,7 +115,6 @@ const useStream = () => {
         resultRef,
         handleStream,
         handleClearText,
-        // handleToSRT
     }
 }
 

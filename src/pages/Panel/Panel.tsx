@@ -3,7 +3,7 @@ import useStream from './useStream'
 import { Container, Stack, Button, TextField, Typography} from '@mui/material';
 
 import './Panel.css';
-import { toWebVTT } from './utils';
+import { toWebVTT, toSTT } from './utils';
 
 const Panel: React.FC = () => {
   const {transcript, isStreaming, resultRef, handleStream, handleClearText} = useStream();
@@ -70,6 +70,9 @@ const Panel: React.FC = () => {
     .then(async (response) => {
       const { key } = await response.json();
       tokenRef.current = key;
+    })
+    .catch(err => {
+
     });
   }, []); 
 
@@ -83,7 +86,7 @@ const Panel: React.FC = () => {
         text = toWebVTT(resultRef.current);
         break;
       case "STT":
-        text = "";
+        text = toSTT(resultRef.current);
         break;
       default: 
         console.error("Unsupported option");

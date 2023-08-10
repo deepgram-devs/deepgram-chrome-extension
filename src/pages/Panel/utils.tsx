@@ -67,9 +67,44 @@ export const toWebVTT = (results : Array<any>, lineLength = 8) : string => {
     });
 
     return lines.join("\n");
-  }
+}
 
-  const chunk = (arr: any[], length: number) => {
+export const toSTT = (results : Array<any>, lineLength = 8) : string => {
+  if (results.length === 0) return "";
+    
+    const lines: string[] = [];
+
+    let entry = 1;
+    results.forEach(result => {
+        const wordChunks = chunk(result["channel"]["alternatives"][0]["words"], lineLength);
+        const limitedLines : string[] = [];
+
+        wordChunks.forEach((words) => {
+            const firstWord = words[0];
+            const lastWord = words[words.length - 1];
+
+            limitedLines.push((entry++).toString());
+            limitedLines.push(
+              `${secondsToTimestamp(
+                firstWord.start,
+                "HH:mm:ss,SSS"
+              )} --> ${secondsToTimestamp(
+                lastWord.end, 
+                "HH:mm:ss,SSS")}`
+            );
+            limitedLines.push(
+              words.map((word) => word.punctuated_word ?? word.word).join(" ")
+            );
+            limitedLines.push("");
+        })
+
+        lines.push(limitedLines.join("\n"));
+    });
+
+    return lines.join("\n");
+}
+
+const chunk = (arr: any[], length: number) => {
     if (arr) {
       const res: any[] = [];
 
@@ -82,12 +117,12 @@ export const toWebVTT = (results : Array<any>, lineLength = 8) : string => {
     } else {
       return [];
     }
-  };
+};
 
-  const secondsToTimestamp = (
+const secondsToTimestamp = (
     seconds: number,
     format = "HH:mm:ss.SSS"): string => {
         return dayjs(seconds * 1000)
         .utc()
         .format(format);
-  }
+}
