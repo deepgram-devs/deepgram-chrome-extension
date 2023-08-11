@@ -34,44 +34,53 @@ const Panel: React.FC = () => {
       removeRuleIds: [1]
       });
 
-    const init = async () => {
+    const getProjects = async () => {
       try {
         const res = await fetch("https://manage.deepgram.com/v1/projects_with_scopes", {method: "GET"});
         var { projects } = await res.json();
         setProjects(projects);
         setSelectedProject(projects[0]["project_id"]);
-      } catch (err) {
-        if (err) {
+      } catch (error) {
+        if (error) { 
           alert("You have not login yet.");
         }
         return;
       }
-      
+    };
+
+    getProjects();
+  }, []); 
+
+  useEffect(() => {
+    const getKey = async () => {
       const payload = {
         "comment": "auto generated api chrome extension key",
         "dg_internal_tags": [],
         "scopes": ["member"],        
-        "time_to_live_in_seconds": 300,
+        "time_to_live_in_seconds": 6000,
       };
 
-      try {
-        const res = await fetch(`https://manage.deepgram.com/v1/projects/${projects[0]["project_id"]}/keys`, {
-          method: "POST",
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(payload),
-        });
-        const { key } = await res.json();
-        tokenRef.current = key;
-      } catch (error) {
+      if (selectedProject) {
+        try {
+          const res = await fetch(`https://manage.deepgram.com/v1/projects/${selectedProject}/keys`, {
+            method: "POST",
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload),
+          });
+          const { key } = await res.json();
+          tokenRef.current = key;
+        } catch (error) {
+          alert("Cannot use this project. Please check your credits or choose another project.");
+        }
 
       }
     };
 
-    init();
-  }, []); 
+    getKey();
+  }, [selectedProject]);
 
   const handleDownload = (e) => {
     let text: string = "";

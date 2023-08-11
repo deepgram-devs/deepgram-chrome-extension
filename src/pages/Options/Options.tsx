@@ -30,7 +30,7 @@ const Options: React.FC = () => {
       const {livestreamOptions} = result;
       setselectedOptions(livestreamOptions);
     })
-  }, [])
+  }, []);
 
   const handleDropdownChange = (event) => {
     const newselectedOptions = {...selectedOptions};
@@ -39,8 +39,6 @@ const Options: React.FC = () => {
     } else {
       delete newselectedOptions[event.target.name];
     }
-
-    console.log(newselectedOptions);
     setselectedOptions(newselectedOptions);
   };
   

@@ -10,6 +10,7 @@ export const Header = ({ projects, selectedProject, setSelectedProject }) => {
     return (
     <AppBar position="static">
       <Toolbar style={{ justifyContent: 'space-between' }}>
+      
       <FormControl variant="outlined">
         <Select
           labelId="project-label"
