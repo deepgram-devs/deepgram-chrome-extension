@@ -8,10 +8,12 @@ const useStream = () => {
     const socketRef = useRef<WebSocket | null>(null);
     const recorderRef = useRef<MediaRecorder | null>(null);
 
-    const handleStream = async (token : string) => {
-        const { livestreamOptions } = await chrome.storage.sync.get("livestreamOptions");
-        var queryString = "";
-        for (const key in livestreamOptions) {
+    const handleStream = (tokenRef) => {
+        return async () => {
+            const token = tokenRef.current;
+            const { livestreamOptions } = await chrome.storage.sync.get("livestreamOptions");
+            var queryString = "";
+            for (const key in livestreamOptions) {
             const value = livestreamOptions[key];
             if (queryString.length > 0) {
                 queryString += ("&" + key + "=" + value)
@@ -20,11 +22,13 @@ const useStream = () => {
             }
         }
 
-        if (isStreaming) {
-            setIsStreaming(false);  
-            if (socketRef.current) socketRef.current.close();
-            if (recorderRef.current) recorderRef.current.stop();
-        } else {
+            if (!token) {
+
+            }  else if (isStreaming) {
+                setIsStreaming(false);  
+                if (socketRef.current) socketRef.current.close();
+                if (recorderRef.current) recorderRef.current.stop();
+            } else {
             setIsStreaming(true);
             socketRef.current = new WebSocket(`wss://api.deepgram.com/v1/listen?${queryString}`, ['token', token]);
             socketRef.current.addEventListener('error', (err) => {
@@ -103,6 +107,7 @@ const useStream = () => {
             
             recorderRef.current.start(1000);
     }
+}
         
 }
     const handleClearText = () => {
