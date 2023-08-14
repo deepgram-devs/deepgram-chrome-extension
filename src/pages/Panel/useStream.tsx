@@ -24,45 +24,48 @@ const useStream = () => {
       }
 
       if (!token) {
-				alert("Session expired. Please refresh page.");
+				alert("Session expired. Please login and refresh page.");
       } else if (isStreaming) {
         setIsStreaming(false);  
         if (socketRef.current) socketRef.current.close();
         if (recorderRef.current) recorderRef.current.stop();
       } else {
         setIsStreaming(true);
-				let screenStream : MediaStream | null = null;
-      	let micStream : MediaStream | null = null;
-        socketRef.current = new WebSocket(`wss://api.deepgram.com/v1/listen?${queryString}`, ['token', token]);
-      	socketRef.current.addEventListener(
-					'error', (err) => {
-        	setIsStreaming(false);
-        	if (socketRef.current) socketRef.current.close();
-        	if (recorderRef.current) recorderRef.current.stop();
-					if (screenStream) {
-						screenStream.getTracks().forEach(track => track.stop());
+				var screenStream : MediaStream | null = null;
+      	var micStream : MediaStream | null = null;
+				try {
+					screenStream = await navigator.mediaDevices.getDisplayMedia({audio: true});
+				} catch (err) {
+					if (err.name !== 'NotAllowedError') {
+						console.error(err);
 					}
-					if (micStream) {
-						micStream.getTracks().forEach(track => track.stop());
+				};
+							
+				try {
+					micStream = await navigator.mediaDevices.getUserMedia({audio: true});
+				} catch (err) {
+					if (err.name !== 'NotAllowedError') {
+						console.error(err);
 					}
-        });
+				};
 
-      
-      try {
-        screenStream = await navigator.mediaDevices.getDisplayMedia({audio: true});
-      } catch (err) {
-        if (err.name !== 'NotAllowedError') {
-          console.error(err);
-        }
-      };
-            
-      try {
-        micStream = await navigator.mediaDevices.getUserMedia({audio: true});
-      } catch (err) {
-        if (err.name !== 'NotAllowedError') {
-          console.error(err);
-      	}
-			};
+				try {
+					socketRef.current = new WebSocket(`wss://api.deepgram.com/v1/listen?${queryString}`, ['token', token]);
+					socketRef.current.addEventListener('error', (err) => {
+						setIsStreaming(false);
+						if (socketRef.current) socketRef.current.close();
+						if (recorderRef.current) recorderRef.current.stop();
+						if (screenStream) {
+							screenStream.getTracks().forEach(track => track.stop());
+						}
+						if (micStream) {
+							micStream.getTracks().forEach(track => track.stop());
+						}
+					});
+				} catch (error) {
+					setIsStreaming(false);
+        	alert("Failed to establish connection. Please make sure you have enough credit in your project.");
+				}
                 
       const audioContext = new AudioContext();
       const mixed = mix(audioContext, [screenStream, micStream])
@@ -89,7 +92,7 @@ const useStream = () => {
             
         recorderRef.current.ondataavailable = (evt : any) => {
           if (socketRef.current && evt.data.size > 0 
-            && socketRef.current.readyState == socketRef.current.OPEN) {
+            && socketRef.current.readyState === socketRef.current.OPEN) {
               console.log("data avaiable, sending through wss");
               socketRef.current.send(evt.data)
           }

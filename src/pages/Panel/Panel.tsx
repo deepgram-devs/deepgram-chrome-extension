@@ -132,6 +132,7 @@ const Panel: React.FC = () => {
           <Button 
             size="large"
             variant="outlined"
+            color={isStreaming ? "error" : "primary"}
             onClick={handleStream(tokenRef)}
           >
             {isStreaming ? "End Livestream" : "Start LiveStream"}
