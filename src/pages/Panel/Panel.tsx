@@ -150,9 +150,9 @@ const Panel: React.FC = () => {
           multiline
           fullWidth
           variant='filled'
-          value={transcript} 
           minRows={20} 
-          maxRows={30} 
+          maxRows={30}
+          value={transcript}
           placeholder="Your Transcript Is Here">            
         </TextField>
         </Container>

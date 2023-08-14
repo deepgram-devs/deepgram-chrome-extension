@@ -23,7 +23,11 @@ export const formatTranscription = (data: any, options: any) : string => {
         return transcript;
     } else {
         let transcript = result.transcript;
-        if (".?!".includes(transcript.slice(-1))) transcript += "\n";
+        if (transcript) {
+          if (".?!".includes(transcript.slice(-1))) transcript += "\n";
+          else transcript += " ";
+        }
+        
         return transcript;
     }
 }
@@ -32,7 +36,6 @@ export const formatTranscription = (data: any, options: any) : string => {
 export const toWebVTT = (results : Array<any>, lineLength = 8) : string => {
     if (results.length === 0) return "";
     const lastWords = results[results.length - 1]["channel"]["alternatives"][0]["words"];
-    console.log(lastWords);
     const lines: string[] = [];
     lines.push("WEBVTT");
     lines.push("");

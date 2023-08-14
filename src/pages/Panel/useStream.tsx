@@ -73,7 +73,6 @@ const useStream = () => {
                 
       socketRef.current.addEventListener('message', msg => {
         const data = JSON.parse(msg.data);
-        console.log(data);
         if (!data.channel) {
         // Server will send metadata if it closes the connection. 
         // Todo: tell user to restart
@@ -83,17 +82,18 @@ const useStream = () => {
 						alert("Failed to start the streaming service. Please retry");
             return;
         } else if (data.channel) {
-          resultRef.current.push(data);
-            setTranscript(previous => {
+					if (data["channel"]["alternatives"][0]["words"].length > 0) {
+						resultRef.current.push(data);
+						setTranscript(previous => {
               return previous + formatTranscription(data, livestreamOptions);
             });
+					}
         }});
 
             
         recorderRef.current.ondataavailable = (evt : any) => {
           if (socketRef.current && evt.data.size > 0 
             && socketRef.current.readyState === socketRef.current.OPEN) {
-              console.log("data avaiable, sending through wss");
               socketRef.current.send(evt.data)
           }
 				}
@@ -124,6 +124,7 @@ const useStream = () => {
   
 	const handleClearText = () => {
     setTranscript("");
+		resultRef.current = [];
   }
     
   return {

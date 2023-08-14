@@ -51,10 +51,10 @@ const Options: React.FC = () => {
 
   return (
     <div>
-     <Container maxWidth="sm">
-     <FormGroup>
+     <Container maxWidth="sm" >
+     <FormGroup >
       {queryParams.map((param, index) => (
-        <FormControl key={index} variant="outlined">
+        <FormControl key={index} variant="outlined" margin="dense">
           <InputLabel>{param.label}</InputLabel>
             <Select
                 key={index}
