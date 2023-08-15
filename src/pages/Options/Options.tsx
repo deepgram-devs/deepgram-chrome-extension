@@ -62,27 +62,35 @@ const Options: React.FC = () => {
 
   }, []);
 
-  const handleDropdownChange = (options) => {
+  const handleDropdownChange = (option) => {
     return (event) => {
-      const newselectedOptions = {...options};
-      if (event.target.value) {
-        newselectedOptions[event.target.name] = event.target.value;
+      if (option === 'livestream') {
+        const newselectedOptions = {...livestreamOptions};
+        if (event.target.value) {
+          newselectedOptions[event.target.name] = event.target.value;
+        } else {
+          delete newselectedOptions[event.target.name];
+        }
+        setLivestreamOptions(newselectedOptions);
       } else {
-        delete newselectedOptions[event.target.name];
+        const newselectedOptions = {...prerecordedOptions};
+        if (event.target.value) {
+          newselectedOptions[event.target.name] = event.target.value;
+        } else {
+          delete newselectedOptions[event.target.name];
+        }
+        setPrerecordedOptions(newselectedOptions);
       }
-      setLivestreamOptions(newselectedOptions);
+
+      const options = {
+        prerecordedOptions: prerecordedOptions,
+        livestreamOptions: livestreamOptions
+      };
+      chrome.storage.sync.set({
+        deepgramOptions: options
+      });
     }
   };
-  
-  const handleSave = () => {
-    const options = {
-      prerecordedOptions: prerecordedOptions,
-      livestreamOptions: livestreamOptions
-    };
-    chrome.storage.sync.set({
-      deepgramOptions: options
-    });
-  }
 
 
   return (
@@ -96,7 +104,7 @@ const Options: React.FC = () => {
                 key={index}
                 name={param.key}
                 value={livestreamOptions[param.key] || ''}
-                onChange={handleDropdownChange(livestreamOptions)}
+                onChange={handleDropdownChange('livestream')}
               > 
                 {param.options.map((option, idx) => {
                   return <MenuItem key={idx} value={option}>{option}</MenuItem>
@@ -118,7 +126,7 @@ const Options: React.FC = () => {
                 key={index}
                 name={param.key}
                 value={prerecordedOptions[param.key] || ''}
-                onChange={handleDropdownChange(prerecordedOptions)}
+                onChange={handleDropdownChange('prerecorded')}
               > 
                 {param.options.map((option, idx) => {
                   return <MenuItem key={idx} value={option}>{option}</MenuItem>
@@ -127,16 +135,6 @@ const Options: React.FC = () => {
             </FormControl>
             ))}
       </FormGroup>
-      </Container>
-
-      <Container maxWidth="sm">
-        <Box
-          display="flex" 
-          justifyContent="center" 
-          alignItems="center"
-        >
-          <Button onClick={handleSave}> Save Options </Button>
-        </Box>
       </Container>
     </div>
   );

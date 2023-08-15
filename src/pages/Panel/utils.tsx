@@ -4,7 +4,7 @@ dayjs.extend(utc);
 
 export const formatTranscription = (data: any, options: any) : string => {
     let result = data.channel.alternatives[0];
-    if (options.diarize) {
+    if (options.diarize === "true") {
         let speakers = {};
         result.words.forEach(wordBase => {
             let {speaker, word} = wordBase;
