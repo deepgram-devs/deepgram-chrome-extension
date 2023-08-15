@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import useStream from './useStream';
 import { Header } from './Header';
-import { Container, Stack, Button, TextField} from '@mui/material';
+import { Container, Checkbox, Stack, Button, TextField, FormControlLabel} from '@mui/material';
 
 import './Panel.css';
 import { toWebVTT, toSTT } from './utils';
@@ -9,9 +9,11 @@ import { toWebVTT, toSTT } from './utils';
 const Panel: React.FC = () => {
   const {
     transcript, 
-    isStreaming, 
-    resultRef, 
-    handleStream, 
+    isStreaming,
+    allowMic, 
+    resultRef,
+    handleStream,
+    handleAllowMic,
     handleClearText
   } = useStream();
   const [projects, setProjects] = useState([]);
@@ -135,6 +137,15 @@ const Panel: React.FC = () => {
           padding={2}
           spacing={8}
         > 
+        <FormControlLabel
+          control={
+            <Checkbox 
+              checked={allowMic}
+              onClick={handleAllowMic}
+            />}
+          label="Use Microphone"
+        />
+       
           <Button 
             size="large"
             variant="outlined"

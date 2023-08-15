@@ -4,18 +4,21 @@ import { formatTranscription } from "./utils";
 const useStream = () => {
   const [transcript, setTranscript] = useState("");
   const resultRef = useRef([]);
+  const [allowMic, setAllowMic] = useState(true);
   const [isStreaming, setIsStreaming] = useState(false);
   const socketRef = useRef<WebSocket | null>(null);
   const recorderRef = useRef<MediaRecorder | null>(null);
-	let screenStream : MediaStream | null = null;
+	
+  let screenStream : MediaStream | null = null;
   let micStream : MediaStream | null = null;
 
 
   const handleStream = (tokenRef) => {
     return async () => {
 			const token = tokenRef.current;
-			const { livestreamOptions } = await chrome.storage.sync.get("livestreamOptions");
-			const { useMic } = await chrome.storage.sync.get("useMic");
+			const {deepgramOptions} = await chrome.storage.sync.get("deepgramOptions");
+      const {livestreamOptions} = deepgramOptions;
+      console.log(livestreamOptions);
       var queryString = "";
       for (const key in livestreamOptions) {
         const value = livestreamOptions[key];
@@ -43,7 +46,7 @@ const useStream = () => {
 					}
 				};
 							
-				if (useMic) {
+				if (allowMic) {
 					try {
 						micStream = await navigator.mediaDevices.getUserMedia({audio: true});
 					} catch (err) {
@@ -67,6 +70,7 @@ const useStream = () => {
 						}
 					});
 				} catch (error) {
+          console.error(error);
 					setIsStreaming(false);
         	alert("Failed to establish connection. Please make sure you have enough credit in your project.");
 				}
@@ -125,6 +129,10 @@ const useStream = () => {
 }
         
 	}
+
+  const handleAllowMic = () => {
+    setAllowMic(!allowMic);
+  }
   
 	const handleClearText = () => {
     setTranscript("");
@@ -134,8 +142,10 @@ const useStream = () => {
   return {
     transcript, 
     isStreaming,
+    allowMic, 
     resultRef,
     handleStream,
+    handleAllowMic,
     handleClearText,
   }
 }
