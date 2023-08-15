@@ -7,7 +7,13 @@ import './Panel.css';
 import { toWebVTT, toSTT } from './utils';
 
 const Panel: React.FC = () => {
-  const {transcript, isStreaming, resultRef, handleStream, handleClearText} = useStream();
+  const {
+    transcript, 
+    isStreaming, 
+    resultRef, 
+    handleStream, 
+    handleClearText
+  } = useStream();
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState("");
 

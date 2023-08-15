@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Options.css';
-import { Box, Container, Button, FormGroup, FormControl, InputLabel, Select, MenuItem} from '@mui/material';
+import { Box, Container, Checkbox, Button, FormGroup, FormControl, InputLabel, Select, MenuItem, FormControlLabel} from '@mui/material';
 
 
 const queryParams = [
@@ -22,6 +22,7 @@ const queryParams = [
 
 const Options: React.FC = () => {
   const [selectedOptions, setselectedOptions] = useState({});
+  const [useMic, setUseMic] = useState(false);
   
 
   useEffect(() => {
@@ -29,6 +30,12 @@ const Options: React.FC = () => {
     .then((result) => {
       const {livestreamOptions} = result;
       setselectedOptions(livestreamOptions);
+    });
+
+    chrome.storage.sync.get("useMic")
+    .then((result) => {
+      const {useMic} = result;
+      setUseMic(useMic);
     })
   }, []);
 
@@ -44,7 +51,8 @@ const Options: React.FC = () => {
   
   const handleSave = () => {
     chrome.storage.sync.set({
-      livestreamOptions: selectedOptions
+      livestreamOptions: selectedOptions,
+      useMic: useMic
     })
   }
 
@@ -53,6 +61,14 @@ const Options: React.FC = () => {
     <div>
      <Container maxWidth="sm" >
      <FormGroup >
+     <FormControlLabel 
+      control={
+     <Checkbox 
+        checked={useMic} 
+        onClick={() => {setUseMic(!useMic)}}
+     />} 
+      label="Use Microphone" 
+     />
       {queryParams.map((param, index) => (
         <FormControl key={index} variant="outlined" margin="dense">
           <InputLabel>{param.label}</InputLabel>
@@ -88,9 +104,6 @@ const Options: React.FC = () => {
           <Button onClick={handleSave}> Save Options </Button>
         </Box>
       </Container>
-      
-        
-      
     </div>
   );
 };

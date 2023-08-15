@@ -7,12 +7,15 @@ const useStream = () => {
   const [isStreaming, setIsStreaming] = useState(false);
   const socketRef = useRef<WebSocket | null>(null);
   const recorderRef = useRef<MediaRecorder | null>(null);
+	let screenStream : MediaStream | null = null;
+  let micStream : MediaStream | null = null;
 
 
   const handleStream = (tokenRef) => {
     return async () => {
 			const token = tokenRef.current;
 			const { livestreamOptions } = await chrome.storage.sync.get("livestreamOptions");
+			const { useMic } = await chrome.storage.sync.get("useMic");
       var queryString = "";
       for (const key in livestreamOptions) {
         const value = livestreamOptions[key];
@@ -31,8 +34,7 @@ const useStream = () => {
         if (recorderRef.current) recorderRef.current.stop();
       } else {
         setIsStreaming(true);
-				var screenStream : MediaStream | null = null;
-      	var micStream : MediaStream | null = null;
+
 				try {
 					screenStream = await navigator.mediaDevices.getDisplayMedia({audio: true});
 				} catch (err) {
@@ -41,13 +43,15 @@ const useStream = () => {
 					}
 				};
 							
-				try {
-					micStream = await navigator.mediaDevices.getUserMedia({audio: true});
-				} catch (err) {
-					if (err.name !== 'NotAllowedError') {
-						console.error(err);
-					}
-				};
+				if (useMic) {
+					try {
+						micStream = await navigator.mediaDevices.getUserMedia({audio: true});
+					} catch (err) {
+						if (err.name !== 'NotAllowedError') {
+							console.error(err);
+						}
+					};
+				}
 
 				try {
 					socketRef.current = new WebSocket(`wss://api.deepgram.com/v1/listen?${queryString}`, ['token', token]);

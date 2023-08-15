@@ -51,77 +51,74 @@ const Popup = () => {
     });
   }, []);
 
+  const popupMenu = (user) => {
+    if (user) {
+      return (
+        <>
+      <List>
+          <ListItem>
+            <ListItemButton>
+              <ListItemText primary="Livestream audio" onClick={handleMic}/>
+            </ListItemButton>
+          </ListItem>
   
+          <ListItem>
+            <ListItemButton>
+              <ListItemText primary="Upload From URL" onClick={handleClickOpenUrl}/>
+            </ListItemButton>
+            <UrlDialog open={openDialog} url={url} 
+            onClose={handleClose}
+            onUrlChange={handleUrlChange}
+            onTranscriptChange={setTranscript}
+            />
+          </ListItem>
+  
+          <ListItem>
+            <ListItemButton>
+              <ListItemText primary="Record Audio(in dev)"/>
+            </ListItemButton>
+          </ListItem>
+  
+          <ListItem>
+            <ListItemButton>
+              <ListItemText primary="Upload Audio File(in dev)" />
+            </ListItemButton>
+          </ListItem>
+  
+          <ListItem>
+            <ListItemButton>
+              <ListItemText primary="Run Scripts in Tabs(deprecated)" onClick={handleTab}/>
+            </ListItemButton>
+          </ListItem>
+        </List>
+        <Divider />
+        <Box>
+          <Typography> Hello {user.first_name} {user.last_name}! </Typography>
+        </Box>
+      </>
+      );
+    } else {
+      return (
+        <div>
+          <Typography> You need to login before using Deepgram Services </Typography>
+          <Divider />
+          <Typography> New to Deepgram? </Typography>
+          <Typography> <a href="https://console.deepgram.com/signup" target='_blank'>Signup Here</a> </Typography>
+          <Divider />
+          <Typography> <a href="https://console.deepgram.com/login" target='_blank'>Login From Console</a> </Typography>
+        </div>
+      )
+    }
+  };
 
 
   return (
     <div className="App">
       <Header />
-      <List>
-        <ListItem>
-          <ListItemButton>
-            <ListItemText primary="Livestream audio" onClick={handleMic}/>
-          </ListItemButton>
-        </ListItem>
-
-        <ListItem>
-          <ListItemButton>
-            <ListItemText primary="Upload From URL" onClick={handleClickOpenUrl}/>
-          </ListItemButton>
-          <UrlDialog open={openDialog} url={url} 
-          onClose={handleClose}
-          onUrlChange={handleUrlChange}
-          onTranscriptChange={setTranscript}
-          />
-        </ListItem>
-
-        <ListItem>
-          <ListItemButton>
-            <ListItemText primary="Record Audio(in dev)"/>
-          </ListItemButton>
-        </ListItem>
-
-        <ListItem>
-          <ListItemButton>
-            <ListItemText primary="Upload Audio File(in dev)" />
-          </ListItemButton>
-        </ListItem>
-
-        <ListItem>
-          <ListItemButton>
-            <ListItemText primary="Run Scripts in Tabs(deprecated)" onClick={handleTab}/>
-          </ListItemButton>
-        </ListItem>
-
-        
-
-      </List>
-      <Divider />
-      <Box>
-        <UserInfo user={user}/>
-      </Box>
+      {popupMenu(user)}
     </div>
   );
 };
 
-
-const UserInfo = ({user}) => {
-
-  return (
-    <div>
-      {
-        user ? (
-          <div>
-            <Typography> Hello {user.first_name} {user.last_name}! </Typography>
-          </div>
-        ) : (
-          <div>
-            <Typography> <a href="https://console.deepgram.com/login" target='_blank'>Login From Console</a> </Typography>
-          </div>
-        )
-      }
-    </div>
-  );
-};
 
 export default Popup;
