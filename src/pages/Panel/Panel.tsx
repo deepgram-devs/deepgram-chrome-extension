@@ -7,15 +7,16 @@ import './Panel.css';
 import { toWebVTT, toSTT } from './utils';
 
 const Panel: React.FC = () => {
-  const {
-    transcript, 
+  const [transcript, setTranscript] = useState("");
+  const resultRef = useRef([]);
+
+  const { 
     isStreaming,
     allowMic, 
-    resultRef,
     handleStream,
     handleAllowMic,
-    handleClearText
   } = useStream();
+
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState("");
 
@@ -119,6 +120,11 @@ const Panel: React.FC = () => {
     a.remove();
     
   }
+
+  const handleClearText = () => {
+    setTranscript("");
+    resultRef.current = [];
+  }
   
   return (
       <Stack direction={"column"} >
@@ -150,7 +156,7 @@ const Panel: React.FC = () => {
             size="large"
             variant="outlined"
             color={isStreaming ? "error" : "primary"}
-            onClick={handleStream(tokenRef)}
+            onClick={handleStream(tokenRef, resultRef, setTranscript)}
           >
             {isStreaming ? "End Livestream" : "Start LiveStream"}
           </Button>

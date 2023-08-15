@@ -62,6 +62,17 @@ const Options: React.FC = () => {
 
   }, []);
 
+  useEffect(() => {
+    const options = {
+      prerecordedOptions: prerecordedOptions,
+      livestreamOptions: livestreamOptions
+    };
+    console.log("option page", options);
+    chrome.storage.sync.set({
+      deepgramOptions: options
+    });
+  }, [livestreamOptions, prerecordedOptions]);
+
   const handleDropdownChange = (option) => {
     return (event) => {
       if (option === 'livestream') {
@@ -72,7 +83,7 @@ const Options: React.FC = () => {
           delete newselectedOptions[event.target.name];
         }
         setLivestreamOptions(newselectedOptions);
-      } else {
+      } else if (option === 'prerecorded') {
         const newselectedOptions = {...prerecordedOptions};
         if (event.target.value) {
           newselectedOptions[event.target.name] = event.target.value;
@@ -81,14 +92,6 @@ const Options: React.FC = () => {
         }
         setPrerecordedOptions(newselectedOptions);
       }
-
-      const options = {
-        prerecordedOptions: prerecordedOptions,
-        livestreamOptions: livestreamOptions
-      };
-      chrome.storage.sync.set({
-        deepgramOptions: options
-      });
     }
   };
 

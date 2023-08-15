@@ -2,8 +2,7 @@ import { useState, useRef } from "react";
 import { formatTranscription } from "./utils";
 
 const useStream = () => {
-  const [transcript, setTranscript] = useState("");
-  const resultRef = useRef([]);
+
   const [allowMic, setAllowMic] = useState(true);
   const [isStreaming, setIsStreaming] = useState(false);
   const socketRef = useRef<WebSocket | null>(null);
@@ -13,7 +12,7 @@ const useStream = () => {
   let micStream : MediaStream | null = null;
 
 
-  const handleStream = (tokenRef) => {
+  const handleStream = (tokenRef, resultRef, setTranscript) => {
     return async () => {
 			const token = tokenRef.current;
 			const {deepgramOptions} = await chrome.storage.sync.get("deepgramOptions");
@@ -134,19 +133,12 @@ const useStream = () => {
     setAllowMic(!allowMic);
   }
   
-	const handleClearText = () => {
-    setTranscript("");
-		resultRef.current = [];
-  }
     
   return {
-    transcript, 
     isStreaming,
     allowMic, 
-    resultRef,
     handleStream,
     handleAllowMic,
-    handleClearText,
   }
 }
 
