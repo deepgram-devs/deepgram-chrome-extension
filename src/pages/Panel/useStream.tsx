@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { formatTranscription } from "./utils";
+import { formatTranscription, buildQueryString } from "./utils";
 
 const useStream = () => {
 
@@ -17,16 +17,8 @@ const useStream = () => {
 			const token = tokenRef.current;
 			const {deepgramOptions} = await chrome.storage.sync.get("deepgramOptions");
       const {livestreamOptions} = deepgramOptions;
-      console.log(livestreamOptions);
-      var queryString = "";
-      for (const key in livestreamOptions) {
-        const value = livestreamOptions[key];
-        if (queryString.length > 0) {
-          queryString += ("&" + key + "=" + value)
-        } else {
-          queryString = (key + "=" + value);
-        }
-      }
+
+      const queryString = buildQueryString(livestreamOptions);
 
       if (!token) {
 				alert("Session expired. Please login and refresh page.");
