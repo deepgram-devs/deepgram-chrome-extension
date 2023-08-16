@@ -1,21 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
-import useStream from './useStream';
 import { Header } from './Header';
-import { Container, Checkbox, Stack, Button, TextField, FormControlLabel} from '@mui/material';
-
-import './Panel.css';
+import { LiveStreamControl } from './LiveStreamControl';
+import { URLControl } from './URLControl';
+import { Container, Stack, Button, TextField, Typography} from '@mui/material';
 import { toWebVTT, toSTT } from './utils';
+import './Panel.css';
+
+
 
 const Panel: React.FC = () => {
+  const [mode, setMode] = useState("url");
   const [transcript, setTranscript] = useState("");
   const resultRef = useRef([]);
-
-  const { 
-    isStreaming,
-    allowMic, 
-    handleStream,
-    handleAllowMic,
-  } = useStream();
 
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState("");
@@ -125,6 +121,37 @@ const Panel: React.FC = () => {
     setTranscript("");
     resultRef.current = [];
   }
+
+  const input = (mode) => {
+    switch (mode) {
+      case "livestream":
+        return (
+        <LiveStreamControl 
+          tokenRef={tokenRef}
+          resultRef={resultRef}
+          setTranscript={setTranscript} 
+          handleClearText={handleClearText}
+        />
+        );
+      case "url":
+        return (
+          <URLControl 
+            tokenRef={tokenRef}
+            resultRef={resultRef}
+            setTranscript={setTranscript} 
+            handleClearText={handleClearText}
+          />
+        );
+      case "file":
+        return (
+          <Typography>Upload file</Typography>
+        );
+        case "recorder": 
+        return (
+          <Typography>Recorder</Typography>
+        );
+    } 
+  }
   
   return (
       <Stack direction={"column"} >
@@ -137,37 +164,7 @@ const Panel: React.FC = () => {
 
         <Container maxWidth="md">
 
-        <Stack 
-          direction={"row"} 
-          justifyContent="center"
-          padding={2}
-          spacing={8}
-        > 
-        <FormControlLabel
-          control={
-            <Checkbox 
-              checked={allowMic}
-              onClick={handleAllowMic}
-            />}
-          label="Use Microphone"
-        />
-       
-          <Button 
-            size="large"
-            variant="outlined"
-            color={isStreaming ? "error" : "primary"}
-            onClick={handleStream(tokenRef, resultRef, setTranscript)}
-          >
-            {isStreaming ? "End Livestream" : "Start LiveStream"}
-          </Button>
-          <Button 
-            size="large"
-            variant="outlined"
-            onClick={handleClearText}
-          >
-            Clear
-          </Button>
-        </Stack>
+        {input(mode)}
 
         <TextField 
           multiline

@@ -32,6 +32,20 @@ export const formatTranscription = (data: any, options: any) : string => {
     }
 }
 
+
+export const buildQueryString = (option) => {
+  let queryString = "";
+  for (const key in option) {
+    const value = option[key];
+    if (queryString.length > 0) {
+      queryString += ("&" + key + "=" + value)
+    } else {
+      queryString = ("?" + key + "=" + value);
+    }
+  }
+  return queryString;
+}
+
 // modified from https://github.com/deepgram/deepgram-node-sdk/
 export const toWebVTT = (results : Array<any>, lineLength = 8) : string => {
     if (results.length === 0) return "";
