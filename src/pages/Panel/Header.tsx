@@ -48,7 +48,6 @@ export const Header = ({ projects, selectedProject, setSelectedProject, modes, m
           </FormControl>
           <Stack direction="row">
             <Button color="inherit">Docs</Button>
-            <Button color="inherit">Logout</Button>
           </Stack>
           </Toolbar>
         );

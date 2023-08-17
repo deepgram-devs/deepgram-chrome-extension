@@ -173,36 +173,50 @@ const Panel: React.FC = () => {
         {input(mode)}
 
         <TextField 
+          className="Transcript"
           multiline
           fullWidth
           variant='filled'
+          inputProps={{ 
+            style: { 
+              color: "#E1E1E5", 
+              fontFamily: "Fira code" 
+            } 
+          }}
           minRows={20} 
           maxRows={30}
           value={transcript}
-          placeholder="Your Transcript Is Here">            
+          placeholder="Your Transcript Is Here"
+          >            
         </TextField>
         </Container>
 
-        <Stack direction={"row"} justifyContent={"center"}> 
-          <Button 
+        <Container maxWidth="md">
+        <Stack direction={"row"} justifyContent={"space-around"} padding={2}> 
+          <Button
+            variant='contained'
             name="transcript" 
             onClick={handleDownload}
           > 
             Download Transcript 
           </Button>
           <Button 
+            variant='contained'
             name="STT" 
             onClick={handleDownload}
           > 
             Download STT 
           </Button>
           <Button 
+            variant='contained'
             name="WebVTT" 
             onClick={handleDownload}
           > 
             Download WebVTT 
           </Button>
         </Stack>
+        
+        </Container>
 
       </Stack>
   );

@@ -2,6 +2,8 @@ import React, {useState, useRef } from 'react';
 import { Button, Stack, TextField, Input} from '@mui/material';
 import { formatTranscription, buildQueryString } from './utils';
 
+import './Panel.css'
+
 export const Recorder = ({tokenRef, resultRef, setTranscript, handleClearText}) => {
 
     const [recording, setRecording] = useState(false);
@@ -71,9 +73,9 @@ export const Recorder = ({tokenRef, resultRef, setTranscript, handleClearText}) 
           padding={2}
           spacing={8}
         > 
-        <Button variant='outlined' onClick={handleRecord}>{recording ? "End Recording" : "Start Recording"}</Button>
-        <Button variant="outlined" onClick={handleTranscribe}>Transcribe</Button>
-        <Button variant="outlined" onClick={handleClearText}>Clear Text</Button>
+        <Button variant='contained' onClick={handleRecord}>{recording ? "End Recording" : "Start Recording"}</Button>
+        <Button variant="contained" onClick={handleTranscribe}>Transcribe</Button>
+        <Button variant="contained" onClick={handleClearText}>Clear Text</Button>
         </Stack>
         
       </Stack>

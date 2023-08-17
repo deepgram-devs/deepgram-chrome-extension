@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import { Button, Stack, FormControlLabel, Checkbox, TextField, Input} from '@mui/material';
 import { formatTranscription, buildQueryString } from './utils';
 
+import './Panel.css'
+
 export const PrerecordedControl = ({tokenRef, resultRef, setTranscript, handleClearText}) => {
 
     const [url, setUrl] = useState("");
@@ -62,8 +64,8 @@ export const PrerecordedControl = ({tokenRef, resultRef, setTranscript, handleCl
         > 
         <TextField label="Paste your URL here" onChange={handleTextChange}></TextField>
         <input type='file' onChange={handleFileChange} />
-        <Button variant="outlined" onClick={handleTranscribe}>Transcribe</Button>
-        <Button variant="outlined" onClick={handleClearText}>Clear Text</Button>
+        <Button variant="contained" onClick={handleTranscribe}>Transcribe</Button>
+        <Button variant="contained" onClick={handleClearText}>Clear Text</Button>
         </Stack>
         
       </Stack>

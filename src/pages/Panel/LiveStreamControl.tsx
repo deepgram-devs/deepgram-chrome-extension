@@ -2,6 +2,8 @@ import React from 'react';
 import { Button, Stack, FormControlLabel, Checkbox, } from '@mui/material';
 import useStream from './useStream';
 
+import './Panel.css'
+
 export const LiveStreamControl = ({tokenRef, resultRef, setTranscript, handleClearText}) => {
     const { 
         isStreaming,
@@ -28,7 +30,7 @@ export const LiveStreamControl = ({tokenRef, resultRef, setTranscript, handleCle
        
           <Button 
             size="large"
-            variant="outlined"
+            variant="contained"
             color={isStreaming ? "error" : "primary"}
             onClick={handleStream(tokenRef, resultRef, setTranscript)}
           >
@@ -36,7 +38,7 @@ export const LiveStreamControl = ({tokenRef, resultRef, setTranscript, handleCle
           </Button>
           <Button 
             size="large"
-            variant="outlined"
+            variant="contained"
             onClick={handleClearText}
           >
             Clear

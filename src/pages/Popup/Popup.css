@@ -5,11 +5,33 @@
   flex-direction: column;
 }
 
-.ListItemButton {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+.PopupButton {
+  display: flex;
+  padding: 16px var(--side-padding, 24px);
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  color: var(--text-header, #FBFBFF);
+  text-align: center;
+  /* special case/button text */
+  font-family: "Inter";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%; /* 16px */
+  text-transform: capitalize;
+
+  border-radius: var(--radius, 4px);
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%), linear-gradient(40deg, #FF2EEA 5.66%, #4B3CFF 92.50%);
+  box-shadow: 10px 10px 80px 0px rgba(124, 56, 250, 0.20);
+}
+
+.PopupButton:hover {
+  border-radius: var(--radius, 4px);
+  background: linear-gradient(307deg, #FF2EEA 5.66%, #4B3CFF 92.50%);
+  box-shadow: 10px 10px 80px 0px rgba(124, 56, 250, 0.20);
 }
 
 .logo {

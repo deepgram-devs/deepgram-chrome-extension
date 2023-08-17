@@ -32,12 +32,12 @@ const Popup = () => {
       <List>
           <ListItem>
             <ListItemButton>
-              <ListItemText primary="Transcribe" onClick={handleTranscribe}/>
+              <ListItemText className="PopupButton" primary="Start Transcribe" onClick={handleTranscribe}/>
             </ListItemButton>
           </ListItem>
           <ListItem>
             <ListItemButton>
-              <ListItemText primary="Settings" onClick={handleOption}/>
+              <ListItemText className="PopupButton" primary="Settings" onClick={handleOption}/>
             </ListItemButton>
           </ListItem>
         </List>
