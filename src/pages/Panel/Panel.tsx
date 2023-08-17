@@ -1,22 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Header } from './Header';
 import { LiveStreamControl } from './LiveStreamControl';
-import { URLControl } from './URLControl';
-import { Container, Stack, Button, TextField, Typography} from '@mui/material';
+import { PrerecordedControl } from './PrerecordedControl';
+import { Recorder } from './Recorder';
+import { Container, Stack, Button, TextField } from '@mui/material';
 import { toWebVTT, toSTT } from './utils';
 import './Panel.css';
 
 
 
 const Panel: React.FC = () => {
-  const [mode, setMode] = useState("url");
   const [transcript, setTranscript] = useState("");
   const resultRef = useRef([]);
 
   const [projects, setProjects] = useState([]);
+  const [mode, setMode] = useState("livestream");
   const [selectedProject, setSelectedProject] = useState("");
 
   const tokenRef = useRef("");
+  const modes = ["livestream", "prerecorded", "recorder"];
 
 
   useEffect(() => {
@@ -133,22 +135,23 @@ const Panel: React.FC = () => {
           handleClearText={handleClearText}
         />
         );
-      case "url":
+      case "prerecorded":
         return (
-          <URLControl 
+          <PrerecordedControl 
             tokenRef={tokenRef}
             resultRef={resultRef}
             setTranscript={setTranscript} 
             handleClearText={handleClearText}
           />
         );
-      case "file":
-        return (
-          <Typography>Upload file</Typography>
-        );
         case "recorder": 
         return (
-          <Typography>Recorder</Typography>
+          <Recorder 
+            tokenRef={tokenRef}
+            resultRef={resultRef}
+            setTranscript={setTranscript} 
+            handleClearText={handleClearText}
+          />
         );
     } 
   }
@@ -160,6 +163,9 @@ const Panel: React.FC = () => {
           projects={projects} 
           selectedProject={selectedProject} 
           setSelectedProject={setSelectedProject}
+          modes={modes}
+          mode={mode}
+          setMode={setMode}
           />
 
         <Container maxWidth="md">

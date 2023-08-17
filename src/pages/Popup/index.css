@@ -9,9 +9,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   position: relative;
+  background: linear-gradient(
+      193.95deg,
+      #101014 3.44%,
+      rgba(0, 0, 0, 0) 174.43%
+    ),
+    linear-gradient(270deg, #673afc -50%, #101014 100%, #673afc -100%);
 }
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { Button, Stack, FormControlLabel, Checkbox, TextField, Input} from '@mui/material';
 import { formatTranscription, buildQueryString } from './utils';
 
-export const URLControl = ({tokenRef, resultRef, setTranscript, handleClearText}) => {
+export const PrerecordedControl = ({tokenRef, resultRef, setTranscript, handleClearText}) => {
 
     const [url, setUrl] = useState("");
     const [file, setFile] = useState(null);
