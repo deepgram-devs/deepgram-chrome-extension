@@ -62,7 +62,21 @@ export const PrerecordedControl = ({tokenRef, resultRef, setTranscript, handleCl
           padding={2}
           spacing={8}
         > 
-        <TextField label="Paste your URL here" onChange={handleTextChange}></TextField>
+        <TextField 
+          label="Paste your URL here" 
+          onChange={handleTextChange}
+          inputProps={{ 
+            style: { 
+              color: "#FBFBFF",
+              backgroundColor: "#101014"
+            } 
+          }}
+          InputLabelProps={{
+            style: { 
+              color: '#4E4E52' 
+            },
+          }}
+        ></TextField>
         <input type='file' onChange={handleFileChange} />
         <Button variant="contained" onClick={handleTranscribe}>Transcribe</Button>
         <Button variant="contained" onClick={handleClearText}>Clear Text</Button>

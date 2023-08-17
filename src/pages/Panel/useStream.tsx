@@ -19,7 +19,7 @@ const useStream = () => {
       const {livestreamOptions} = deepgramOptions;
 
       const queryString = buildQueryString(livestreamOptions);
-
+      console.log(queryString);
       if (!token) {
 				alert("Session expired. Please login and refresh page.");
       } else if (isStreaming) {

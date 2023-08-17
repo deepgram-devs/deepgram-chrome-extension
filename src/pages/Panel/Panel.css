@@ -14,16 +14,21 @@ body {
   align-items: center;
   gap: 8px;
 
+  color: var(--text-header, #FBFBFF);
+  text-align: center;
+  /* special case/button text */
+  font-family: "Inter";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%; /* 16px */
+  text-transform: capitalize;
+
   border-radius: var(--radius, 4px);
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%), linear-gradient(40deg, #FF2EEA 5.66%, #4B3CFF 92.50%);
 }
 
-.MuiFilledInput-root {
-  color: var(--text-body, #E1E1E5);
-  font-family: Fira Code;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 450;
-  line-height: 150%; /* 21px */
-  letter-spacing: 0.42px;
+.MuiButton-contained:hover {
+  background: linear-gradient(307deg, #FF2EEA 5.66%, #4B3CFF 92.50%);
+  box-shadow: 10px 10px 80px 0px rgba(124, 56, 250, 0.20);
 }

@@ -24,8 +24,14 @@ export const LiveStreamControl = ({tokenRef, resultRef, setTranscript, handleCle
             <Checkbox 
               checked={allowMic}
               onClick={handleAllowMic}
+              style={{
+                color: "#13EF93"
+              }}
             />}
           label="Use Microphone"
+          style={{
+            color: "#E1E1E5"
+          }}
         />
        
           <Button 

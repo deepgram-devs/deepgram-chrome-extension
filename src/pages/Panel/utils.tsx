@@ -7,6 +7,7 @@ export const formatTranscription = (data: any, options: any) : string => {
     if (options.diarize === "true") {
         let speakers = {};
         result.words.forEach(wordBase => {
+          console.log(wordBase);
             let {speaker, word} = wordBase;
             speaker = speaker.toString();
             if (speakers[speaker]) {
@@ -37,10 +38,12 @@ export const buildQueryString = (option) => {
   let queryString = "";
   for (const key in option) {
     const value = option[key];
-    if (queryString.length > 0) {
-      queryString += ("&" + key + "=" + value)
-    } else {
-      queryString = ("?" + key + "=" + value);
+    if (key && value) {
+      if (queryString.length > 0) {
+        queryString += ("&" + key + "=" + value)
+      } else {
+        queryString = ("?" + key + "=" + value);
+      }
     }
   }
   return queryString;

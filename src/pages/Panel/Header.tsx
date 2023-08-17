@@ -1,6 +1,6 @@
 import React, {  } from 'react';
-import { AppBar, FormControl, Stack, Select, MenuItem, Button, Toolbar, Typography } from '@mui/material';
-
+import {  FormControl, Stack, Select, MenuItem } from '@mui/material';
+import './Panel.css'
 
 export const Header = ({ projects, selectedProject, setSelectedProject, modes, mode, setMode }) => {
 
@@ -15,54 +15,65 @@ export const Header = ({ projects, selectedProject, setSelectedProject, modes, m
     const toolbarItems = () => {
       if (projects.length > 0) {
         return (
-          <Toolbar style={{ justifyContent: 'space-between' }}>
-          <FormControl variant="outlined">
+          <Stack direction="row" alignContent="left" spacing={2}>
+          <FormControl>
             <Select
               labelId="project-label"
               id="projects"
               value={selectedProject}
               onChange={handleProjectChange}
               label="Select Project"
+              style={{
+                backgroundColor: "#101014",
+                color: "#E1E1E5"
+              }}
             >
             {projects.map((project) => (
-              <MenuItem key={project.project_id} value={project.project_id}>
+              <MenuItem 
+              key={project.project_id} 
+              value={project.project_id}
+              style={{
+                backgroundColor: "#101014",
+                color: "#E1E1E5"
+              }}
+              >
               {project.name}
               </MenuItem>
             ))}
             </Select>
           </FormControl>
-          <FormControl variant="outlined">
+          <FormControl >
             <Select
-              labelId="mode-label"
               id="modes"
               value={mode}
               onChange={handleModeChange}
-              label="Select Mode"
+              style={{
+                backgroundColor: "#101014",
+                color: "#E1E1E5"
+              }}
             >
             {modes.map((mode, index) => (
-              <MenuItem key={index} value={mode}>
+              <MenuItem 
+                key={index} 
+                value={mode}
+                style={{
+                  backgroundColor: "#101014",
+                  color: "#E1E1E5"
+                }}
+                >
               {mode}
               </MenuItem>
             ))}
             </Select>
           </FormControl>
-          <Stack direction="row">
-            <Button color="inherit">Docs</Button>
           </Stack>
-          </Toolbar>
         );
-      } else {
-        return (
-          <Toolbar>
-            <Typography> <a href="https://console.deepgram.com/login" target='_blank'>Login From Console</a> </Typography>
-          </Toolbar>
-        )
       }
     }
 
     return (
-    <AppBar position="static">
-      {toolbarItems()}
-    </AppBar>
+      <>
+        {toolbarItems()}
+      </>
   )
 };
