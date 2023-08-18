@@ -16,7 +16,7 @@
   color: var(--text-header, #FBFBFF);
   text-align: center;
   /* special case/button text */
-  font-family: "Inter";
+  font-family: 'Inter';
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
@@ -34,6 +34,7 @@
   box-shadow: 10px 10px 80px 0px rgba(124, 56, 250, 0.20);
 }
 
+
 .logo {
   display: flex;
   padding-top: 20px;
@@ -43,4 +44,13 @@
   flex-shrink: 0;
   width: 200px;
   fill: white;
+}
+
+a {
+  color: var(--text-link, #00E062);
+  font-family: 'Inter';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 145%; /* 23.2px */
 }

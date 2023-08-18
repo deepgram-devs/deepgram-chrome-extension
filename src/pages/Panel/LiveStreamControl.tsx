@@ -36,7 +36,16 @@ export const LiveStreamControl = ({tokenRef, resultRef, setTranscript, handleCle
        
           <Button 
             size="large"
-            variant="contained"
+            sx={{
+              color: "#FBFBFF",
+              textAlign: "center",
+              fontFamily: 'Inter',
+              fontSize: "16px",
+              fontStyle: "normal",
+              fontWeight: "600",
+              lineHeight: "100%",
+              textTransform: "capitalize",
+            }}
             color={isStreaming ? "error" : "primary"}
             onClick={handleStream(tokenRef, resultRef, setTranscript)}
           >
@@ -44,7 +53,16 @@ export const LiveStreamControl = ({tokenRef, resultRef, setTranscript, handleCle
           </Button>
           <Button 
             size="large"
-            variant="contained"
+            sx={{
+              color: "#FBFBFF",
+              textAlign: "center",
+              fontFamily: 'Inter',
+              fontSize: "16px",
+              fontStyle: "normal",
+              fontWeight: "600",
+              lineHeight: "100%",
+              textTransform: "capitalize",
+            }}
             onClick={handleClearText}
           >
             Clear

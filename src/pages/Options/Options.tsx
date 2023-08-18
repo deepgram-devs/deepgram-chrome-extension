@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Options.css';
-import { Box, Container, Checkbox, Button, FormGroup, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Divider} from '@mui/material';
+import { Container, FormGroup, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Divider} from '@mui/material';
 
 
 const livestreamQueryParams = [
@@ -67,7 +67,7 @@ const Options: React.FC = () => {
       prerecordedOptions: prerecordedOptions,
       livestreamOptions: livestreamOptions
     };
-    console.log("option page", options);
+    
     chrome.storage.sync.set({
       deepgramOptions: options
     });
@@ -101,7 +101,11 @@ const Options: React.FC = () => {
       <Container maxWidth="sm" >
         <FormGroup >
       {livestreamQueryParams.map((param, index) => (
-        <FormControl key={index} variant="outlined" margin="dense">
+        <FormControl 
+          key={index}  
+          margin="dense"
+          
+          >
           <InputLabel>{param.label}</InputLabel>
             <Select
                 key={index}

@@ -3,11 +3,12 @@ import utc from "dayjs/plugin/utc";
 dayjs.extend(utc);
 
 export const formatTranscription = (data: any, options: any) : string => {
+  console.log("data: ", data);
     let result = data.channel.alternatives[0];
+    console.log(result);
     if (options.diarize === "true") {
         let speakers = {};
         result.words.forEach(wordBase => {
-          console.log(wordBase);
             let {speaker, word} = wordBase;
             speaker = speaker.toString();
             if (speakers[speaker]) {
@@ -52,6 +53,7 @@ export const buildQueryString = (option) => {
 // modified from https://github.com/deepgram/deepgram-node-sdk/
 export const toWebVTT = (results : Array<any>, lineLength = 8) : string => {
     if (results.length === 0) return "";
+    console.log(results);
     const lastWords = results[results.length - 1]["channel"]["alternatives"][0]["words"];
     const lines: string[] = [];
     lines.push("WEBVTT");

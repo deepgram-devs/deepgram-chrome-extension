@@ -45,7 +45,13 @@ export const PrerecordedControl = ({tokenRef, resultRef, setTranscript, handleCl
       const {metadata, results} = await res.json();
       resultRef.current.push(results);
       console.log(results);
-      const transcript = results["channels"][0]["alternatives"][0]["transcript"];
+      let transcript;
+      if (results["channels"][0]["alternatives"][0]["paragraphs"]) {
+        transcript = results["channels"][0]["alternatives"][0]["paragraphs"]["transcript"];
+      } else {
+        transcript = results["channels"][0]["alternatives"][0]["transcript"];
+      }
+      
       setTranscript(transcript);
     };
 
@@ -78,8 +84,28 @@ export const PrerecordedControl = ({tokenRef, resultRef, setTranscript, handleCl
           }}
         ></TextField>
         <input type='file' onChange={handleFileChange} />
-        <Button variant="contained" onClick={handleTranscribe}>Transcribe</Button>
-        <Button variant="contained" onClick={handleClearText}>Clear Text</Button>
+        <Button sx={{
+              color: "#FBFBFF",
+              textAlign: "center",
+              fontFamily: 'Inter',
+              fontSize: "16px",
+              fontStyle: "normal",
+              fontWeight: "600",
+              lineHeight: "100%",
+              textTransform: "capitalize",
+            }} onClick={handleTranscribe}>Transcribe</Button>
+        <Button 
+          sx={{
+              color: "#FBFBFF",
+              textAlign: "center",
+              fontFamily: 'Inter',
+              fontSize: "16px",
+              fontStyle: "normal",
+              fontWeight: "600",
+              lineHeight: "100%",
+              textTransform: "capitalize",
+            }} 
+            onClick={handleClearText}> Clear Text</Button>
         </Stack>
         
       </Stack>

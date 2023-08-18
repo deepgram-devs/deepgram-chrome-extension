@@ -48,7 +48,8 @@ const useStream = () => {
 				}
 
 				try {
-					socketRef.current = new WebSocket(`wss://api.deepgram.com/v1/listen?${queryString}`, ['token', token]);
+          console.log(`wss://api.deepgram.com/v1/listen${queryString}`);
+					socketRef.current = new WebSocket(`wss://api.deepgram.com/v1/listen${queryString}`, ['token', token]);
 					socketRef.current.addEventListener('error', (err) => {
 						setIsStreaming(false);
 						if (socketRef.current) socketRef.current.close();
@@ -72,6 +73,7 @@ const useStream = () => {
                 
       socketRef.current.addEventListener('message', msg => {
         const data = JSON.parse(msg.data);
+        console.log("msg data: ", data);
         if (!data.channel) {
         // Server will send metadata if it closes the connection. 
         // Todo: tell user to restart

@@ -1,6 +1,7 @@
 import React from 'react';
 import DeepgramLogo from '../../assets/img/wordmark.svg';
 import { useState, useEffect } from 'react';
+import { Stack } from '@mui/material';
 
 import './Popup.css';
 import { Divider, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
@@ -44,14 +45,44 @@ const Popup = () => {
       );
     } else {
       return (
-        <div>
-          <Typography> You need to login before using Deepgram Services </Typography>
+        <Stack 
+          padding={2}
+          spacing={2}
+          justifyContent={"space-between"}
+          >
+          <Typography 
+            sx={{
+              color: "#E1E1E5",
+              fontFamily: 'Inter',
+              fontSize: "16px",
+              fontStyle: "normal",
+              fontWeight: "700",
+              lineHeight: "145%"
+            }}
+            > Transcribe and understand audio with deep learning. </Typography>
           <Divider />
-          <Typography> New to Deepgram? </Typography>
-          <Typography> <a href="https://console.deepgram.com/signup" target='_blank'>Signup Here</a> </Typography>
+          <Typography 
+            sx={{
+              color: "#E1E1E5",
+              fontFamily: 'Inter',
+              fontSize: "16px",
+              fontStyle: "normal",
+              fontWeight: "400",
+              lineHeight: "145%"
+            }}
+          > New to Deepgram? <a href="https://console.deepgram.com/signup" target='_blank'>Sign up free</a> </Typography>
           <Divider />
-          <Typography> <a href="https://console.deepgram.com/login" target='_blank'>Login From Console</a> </Typography>
-        </div>
+          <Typography 
+            sx={{
+              color: "#E1E1E5",
+              fontFamily: 'Inter',
+              fontSize: "16px",
+              fontStyle: "normal",
+              fontWeight: "400",
+              lineHeight: "145%"
+            }}
+          > Already have an account <a href="https://console.deepgram.com/login" target='_blank'>Log in</a> </Typography>
+        </Stack>
       )
     }
   };

@@ -194,22 +194,55 @@ const Panel: React.FC = () => {
         <Container maxWidth="md">
         <Stack direction={"row"} justifyContent={"space-around"} padding={2}> 
           <Button
-            variant='contained'
+          size="large"
+            sx={{
+              color: "#FBFBFF",
+              textAlign: "center",
+              fontFamily: 'Inter',
+              fontSize: "16px",
+              fontStyle: "normal",
+              fontWeight: "600",
+              lineHeight: "100%",
+              textTransform: "capitalize",
+            }}
+            variant ="contained"
             name="transcript" 
             onClick={handleDownload}
           > 
             Download Transcript 
           </Button>
           <Button 
-            variant='contained'
+          size="large"
+            sx={{
+              color: "#FBFBFF",
+              textAlign: "center",
+              fontFamily: 'Inter',
+              fontSize: "16px",
+              fontStyle: "normal",
+              fontWeight: "600",
+              lineHeight: "100%",
+              textTransform: "capitalize",
+            }}
             name="STT" 
+            variant ="contained"
             onClick={handleDownload}
           > 
             Download STT 
           </Button>
           <Button 
-            variant='contained'
+          size="large"
+            sx={{
+              color: "#FBFBFF",
+              textAlign: "center",
+              fontFamily: 'Inter',
+              fontSize: "16px",
+              fontStyle: "normal",
+              fontWeight: "600",
+              lineHeight: "100%",
+              textTransform: "capitalize",
+            }}
             name="WebVTT" 
+            variant ="contained"
             onClick={handleDownload}
           > 
             Download WebVTT 
