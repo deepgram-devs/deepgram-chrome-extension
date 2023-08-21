@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Stack, FormControlLabel, Checkbox, } from '@mui/material';
+import { Button, Stack, FormControlLabel, Checkbox } from '@mui/material';
 import useStream from './useStream';
 
 import './Panel.css'

@@ -1,49 +1,29 @@
+@font-face {
+  font-family: 'ABC Favorit';
+  src: url('../../assets/font/ABCFavorit-Bold.otf') format('otf'), 
+}
+
+
 .App {
   display: flex;
-  justify-content: center; /* Horizontally centers children */
+  justify-content: start; 
   align-items: center;
   flex-direction: column;
+  flex-wrap: wrap;
+  height: 100vh;
+  border: 1;
+  border-color: #2C2C33;
 }
-
-
-.PopupButton {
-  display: flex;
-  padding: 16px var(--side-padding, 24px);
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-
-  color: var(--text-header, #FBFBFF);
-  text-align: center;
-  /* special case/button text */
-  font-family: 'Inter';
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 100%; /* 16px */
-  text-transform: capitalize;
-
-  border-radius: var(--radius, 4px);
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%), linear-gradient(40deg, #FF2EEA 5.66%, #4B3CFF 92.50%);
-  box-shadow: 10px 10px 80px 0px rgba(124, 56, 250, 0.20);
-}
-
-.PopupButton:hover {
-  border-radius: var(--radius, 4px);
-  background: linear-gradient(307deg, #FF2EEA 5.66%, #4B3CFF 92.50%);
-  box-shadow: 10px 10px 80px 0px rgba(124, 56, 250, 0.20);
-}
-
 
 .logo {
   display: flex;
-  padding-top: 20px;
-  padding-bottom: 0px;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
   width: 200px;
   fill: white;
+  padding: 15px;
+  padding-bottom: 0px;
 }
 
 a {
@@ -53,4 +33,44 @@ a {
   font-style: normal;
   font-weight: 600;
   line-height: 145%; /* 23.2px */
+}
+
+.Menu {
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-around; 
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  
+  padding: 15px;
+}
+
+.MuiButton-contained.PrimaryButton {
+  display: flex;
+  padding: 16px var(--side-padding, 24px);
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  width: 175px;
+
+  color: var(--text-header, #FBFBFF);
+  text-align: center;
+  /* special case/button text */
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%; /* 16px */
+  text-transform: capitalize;
+
+  border-radius: var(--radius, 4px);
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%), linear-gradient(40deg, #FF2EEA 5.66%, #4B3CFF 92.50%);
+}
+
+.MuiButton-contained.PrimaryButton:hover {
+  border-radius: var(--radius, 4px);
+  background: linear-gradient(307deg, #FF2EEA 5.66%, #4B3CFF 92.50%);
+  box-shadow: 10px 10px 80px 0px rgba(124, 56, 250, 0.20);
 }
