@@ -1,91 +1,87 @@
 import React from 'react';
-import { useState } from 'react';
-import Header from './components/Header/Header'
-import  UrlDialog from './components/Dialog/Dialog';
+import Logo from '../../assets/img/wordmark.svg';
+import { useState, useEffect } from 'react';
+
 import './Popup.css';
-import { Box, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
+import {  Button, Typography } from '@mui/material';
 
 const Popup = () => {
-  const [transcript, setTranscript] = useState("This is transcript");
-
-  // URl buttons
-  const [openDialog, setOpenDialog] = useState(false);
-  const [url, setURl] = useState("");
-
-
-  const handleClickOpenUrl = () => {
-    setOpenDialog(true);
-  }
-
-  const handleClose = () => {
-    setOpenDialog(false);
-  }
-
-  const handleUrlChange = (e: any) => {
-    setURl(e.target.value);
-  }
+  const [user, setUser] = useState(null);
 
   // Capture Mic
-  const handleMic = async () => {
-    const tab = await chrome.tabs.create({url: 'panel.html'});
+  const handleTranscribe = async () => {
+    chrome.tabs.create({url: 'panel.html'});
   }
 
-  // Run Scripts in Tabs
-  const handleTab = async () => {
-    const queryOptions = { active: true, lastFocusedWindow: true };
-    const [tab] = await chrome.tabs.query(queryOptions);
-    const result = await chrome.scripting.executeScript({
-      target: { tabId: tab.id! },
-      files: ["audiostream.bundle.js"]
+  const handleOption = () => {
+    chrome.tabs.create({url: 'options.html'});
+  }
+
+  useEffect(() => {
+    fetch("https://manage.deepgram.com/v1/auth/user", {
+      method: "GET"
+    }).then(async response => {
+      const user = await response.json();
+      setUser(user);
     });
+  }, []);
 
-  }
+  const popupMenu = (user) => {
+    if (user) {
+      return (
+        <>
+          <Button className="PrimaryButton" variant="contained" onClick={handleTranscribe}> Transcribe </Button>
+          <Button className="PrimaryButton" variant="contained" onClick={handleOption}> Settings</Button>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Typography 
+            sx={{
+              color: "#E1E1E5",
+              fontFamily: 'ABC Favorit',
+              fontSize: "20px",
+              fontStyle: "normal",
+              fontWeight: "700",
+              lineHeight: "140%"
+            }}
+            > Transcribe and understand audio with deep learning. </Typography>
+          <Typography 
+            sx={{
+              color: "#E1E1E5",
+              fontFamily: 'Inter',
+              fontSize: "16px",
+              fontStyle: "normal",
+              fontWeight: "400",
+              lineHeight: "145%"
+            }}
+          > New to Deepgram? <a href="https://console.deepgram.com/signup" target='_blank'>Sign up free</a> </Typography>
+          <Typography 
+            sx={{
+              color: "#E1E1E5",
+              fontFamily: 'Inter',
+              fontSize: "16px",
+              fontStyle: "normal",
+              fontWeight: "400",
+              lineHeight: "145%"
+            }}
+          > Already have an account <a href="https://console.deepgram.com/login" target='_blank'>Log in</a> </Typography>   
+        </>
+      )
+    }
+  };
+
 
   return (
     <div className="App">
-      <Header />
-      <List>
-        <ListItem>
-          <ListItemButton>
-            <ListItemText primary="Record Audio"/>
-          </ListItemButton>
-        </ListItem>
-
-        <ListItem>
-          <ListItemButton>
-            <ListItemText primary="Upload From URL" onClick={handleClickOpenUrl}/>
-          </ListItemButton>
-          <UrlDialog open={openDialog} url={url} 
-          onClose={handleClose}
-          onUrlChange={handleUrlChange}
-          onTranscriptChange={setTranscript}
-          />
-        </ListItem>
-
-        <ListItem>
-          <ListItemButton>
-            <ListItemText primary="Upload Audio File" />
-          </ListItemButton>
-        </ListItem>
-
-        <ListItem>
-          <ListItemButton>
-            <ListItemText primary="Run Scripts in Tabs(deprecated)" onClick={handleTab}/>
-          </ListItemButton>
-        </ListItem>
-
-        <ListItem>
-          <ListItemButton>
-            <ListItemText primary="Livestream audio" onClick={handleMic}/>
-          </ListItemButton>
-        </ListItem>
-
-      </List>
-      <Box>
-        <Typography> {transcript} </Typography>
-      </Box>
+      <img className="logo" src={Logo} alt="Logo" />
+      <div className="Menu">
+        {popupMenu(user)}
+      </div>
     </div>
   );
 };
+
 
 export default Popup;

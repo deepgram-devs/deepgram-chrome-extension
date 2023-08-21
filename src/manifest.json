@@ -3,13 +3,18 @@
   "name": "Deepgram Chrome Extension",
   "description": "A chrome extension for audio transcription, powered by Deepgram",
   "permissions": [
-    "storage",
+    "cookies",
     "activeTab",
-    "tabs", 
     "tabCapture", 
-    "scripting"],
-  "host_permissions": ["http://*/*", "https://*/*", "<all_urls>"],
-  "options_page": "options.html",
+    "scripting",
+    "storage",
+    "declarativeNetRequest"
+  ],
+  "host_permissions": ["*://*.deepgram.com/*"],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
   "background": { "service_worker": "background.bundle.js" },
   "action": {
     "default_popup": "popup.html",

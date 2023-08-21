@@ -1,8 +1,9 @@
-.OptionsContainer {
-  width: 100%;
-  height: 50vh;
-  font-size: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+body {
+  background: linear-gradient(
+      193.95deg,
+      #101014 3.44%,
+      rgba(0, 0, 0, 0) 174.43%
+    ),
+    linear-gradient(270deg, #673afc -50%, #101014 100%, #673afc -100%);
 }
+
