@@ -84,28 +84,8 @@ export const PrerecordedControl = ({tokenRef, resultRef, setTranscript, handleCl
           }}
         ></TextField>
         <input type='file' onChange={handleFileChange} />
-        <Button sx={{
-              color: "#FBFBFF",
-              textAlign: "center",
-              fontFamily: 'Inter',
-              fontSize: "16px",
-              fontStyle: "normal",
-              fontWeight: "600",
-              lineHeight: "100%",
-              textTransform: "capitalize",
-            }} onClick={handleTranscribe}>Transcribe</Button>
-        <Button 
-          sx={{
-              color: "#FBFBFF",
-              textAlign: "center",
-              fontFamily: 'Inter',
-              fontSize: "16px",
-              fontStyle: "normal",
-              fontWeight: "600",
-              lineHeight: "100%",
-              textTransform: "capitalize",
-            }} 
-            onClick={handleClearText}> Clear Text</Button>
+        <button onClick={handleTranscribe}>Transcribe</button>
+        <button onClick={handleClearText}> Clear Text </button>
         </Stack>
         
       </Stack>

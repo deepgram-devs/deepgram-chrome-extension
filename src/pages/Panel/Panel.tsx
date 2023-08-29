@@ -4,7 +4,7 @@ import { LiveStreamControl } from './LiveStreamControl';
 import { PrerecordedControl } from './PrerecordedControl';
 import { Recorder } from './Recorder';
 import { Container, Stack, Button, TextField } from '@mui/material';
-import { toWebVTT, toSTT } from './utils';
+import { toWebVTT, toSRT } from './utils';
 import './Panel.css';
 
 
@@ -103,9 +103,9 @@ const Panel: React.FC = () => {
         text = toWebVTT(resultRef.current);
         a.download = "transcript.vtt";
         break;
-      case "STT":
-        text = toSTT(resultRef.current);
-        a.download = "transcript.stt";
+      case "SRT":
+        text = toSRT(resultRef.current);
+        a.download = "transcript.srt";
         break;
       default: 
         console.error("Unsupported option");
@@ -193,30 +193,27 @@ const Panel: React.FC = () => {
 
         <Container maxWidth="md">
         <Stack direction={"row"} justifyContent={"space-around"} padding={2}> 
-          <Button
+          <button
             className="SecondaryButton"
             name="transcript" 
-            variant="text"
             onClick={handleDownload}
           > 
             Download Transcript 
-          </Button>
-          <Button 
-            name="STT"
+          </button>
+          <button
+            name="SRT"
             className="SecondaryButton"
-            variant="text"
             onClick={handleDownload}
           > 
-            Download STT 
-          </Button>
-          <Button 
+            Download SRT 
+          </button>
+          <button 
             name="WebVTT"
             className="SecondaryButton"
-            variant="text"
             onClick={handleDownload}
           > 
             Download WebVTT 
-          </Button>
+          </button>
         </Stack>
         
         </Container>

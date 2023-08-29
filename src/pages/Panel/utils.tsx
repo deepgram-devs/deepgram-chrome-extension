@@ -91,7 +91,7 @@ export const toWebVTT = (results : Array<any>, lineLength = 8) : string => {
     return lines.join("\n");
 }
 
-export const toSTT = (results : Array<any>, lineLength = 8) : string => {
+export const toSRT = (results : Array<any>, lineLength = 8) : string => {
   if (results.length === 0) return "";
     
     const lines: string[] = [];
