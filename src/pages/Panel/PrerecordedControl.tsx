@@ -64,9 +64,9 @@ export const PrerecordedControl = ({tokenRef, resultRef, setTranscript, handleCl
       <Stack>
         <Stack 
           direction={"row"} 
-          justifyContent="center"
-          padding={2}
-          spacing={8}
+          justifyContent={"space-around"}
+          alignItems={"center"}
+          minHeight={100}
         > 
         <TextField 
           label="Paste your URL here" 
@@ -84,11 +84,18 @@ export const PrerecordedControl = ({tokenRef, resultRef, setTranscript, handleCl
           }}
         ></TextField>
         <input type='file' onChange={handleFileChange} />
-        <button onClick={handleTranscribe}>Transcribe</button>
-        <button onClick={handleClearText}> Clear Text </button>
         </Stack>
-        
+        <Stack
+          direction={"row"} 
+          justifyContent={"space-evenly"}
+          alignItems={"center"}
+          minHeight={100}
+        >
+          <button  className="PrimaryButton" onClick={handleTranscribe}>Transcribe</button>
+          <button className="SecondaryButton" onClick={handleClearText}> Clear Text </button>
+        </Stack>
       </Stack>
         
     );
 };
+

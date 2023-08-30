@@ -172,27 +172,19 @@ const Panel: React.FC = () => {
 
         {input(mode)}
 
-        <TextField 
+        <Stack direction={"row"} justifyContent={"space-around"}>
+        <textarea
           className="Transcript"
-          multiline
-          fullWidth
-          variant='filled'
-          inputProps={{ 
-            style: { 
-              color: "#E1E1E5", 
-              fontFamily: "Fira code" 
-            } 
-          }}
-          minRows={20} 
-          maxRows={30}
           value={transcript}
           placeholder="Your Transcript Is Here"
           >            
-        </TextField>
+        </textarea>
+        </Stack>
+        
         </Container>
 
         <Container maxWidth="md">
-        <Stack direction={"row"} justifyContent={"space-around"} padding={2}> 
+        <Stack direction={"row"} justifyContent={"space-around"}> 
           <button
             className="SecondaryButton"
             name="transcript" 
@@ -217,7 +209,6 @@ const Panel: React.FC = () => {
         </Stack>
         
         </Container>
-
       </Stack>
   );
 };

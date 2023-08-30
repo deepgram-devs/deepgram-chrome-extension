@@ -16,7 +16,7 @@ body {
   align-items: center;
   gap: 8px;
 
-  width: 220px;
+  width: 200px;
   height: 48px;
 
   border-radius: var(--radius, 4px);
@@ -128,4 +128,32 @@ option {
   font-weight: 400;
   line-height: 145%; /* 23.2px */
 
+}
+
+.Transcript {
+  display: flex;
+  width:100%;
+  margin: 20px;
+  padding: 24px;
+  padding-top: 16px;
+  min-height: 400px;
+  height: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: none;
+
+  color: var(--text-body, #E1E1E5);
+  font-family: Fira Code;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 450;
+  line-height: 150%;
+  letter-spacing: 0.42px;
+  background-color: #1A1A1F;
+  
+
+  overflow-y: auto;
+  flex-shrink: 0;
+  resize: none;
 }

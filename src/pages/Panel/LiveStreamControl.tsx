@@ -15,9 +15,8 @@ export const LiveStreamControl = ({tokenRef, resultRef, setTranscript, handleCle
     return (
         <Stack 
           direction={"row"} 
-          justifyContent="space-around"
+          justifyContent={"space-around"}
           alignItems={"center"}
-          spacing={8}
           minHeight={100}
         > 
         <Stack 
@@ -38,10 +37,9 @@ export const LiveStreamControl = ({tokenRef, resultRef, setTranscript, handleCle
           </button>
           <button
             className="SecondaryButton"
-            style={{width: "100px",}}
             onClick={handleClearText}
           >
-            Clear
+            Clear Text
           </button>
         </Stack>
     );
