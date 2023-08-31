@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Button, Stack, FormControlLabel, Checkbox, TextField, Input, Typography} from '@mui/material';
+import { Stack, Container} from '@mui/material';
 import { formatTranscription, buildQueryString } from './utils';
 
 import './Panel.css'
@@ -61,13 +61,14 @@ export const PrerecordedControl = ({tokenRef, resultRef, setTranscript, handleCl
     
 
     return (
-      <Stack>
+      <Container maxWidth="md">
+        <Stack>
         <Stack 
           direction={"row"} 
           justifyContent={"center"}
           alignItems={"center"}
           minHeight={150}
-          spacing={20}
+          spacing={4}
         > 
         <div>
           <label> Paste your URL here</label> <br />
@@ -81,13 +82,21 @@ export const PrerecordedControl = ({tokenRef, resultRef, setTranscript, handleCl
           </input>
         </div>
         
-        <Stack justifyContent={"center"} alignItems={"center"} style={{margin: "auto"}} >
-          <div className='VerticalDivider' style={{height: "18px", paddingBottom: "6px"}}></div>
-          <div className="DividerText">Or</div>
-          <div className='VerticalDivider' style={{height: "36px", paddingTop: "6px"}}></div>
-        </Stack>
+        <div>
+          <Stack direction={"column"} alignItems={"center"}>
+            <div className='VerticalDivider' style={{height: "18px", paddingBottom: "6px"}}></div>
+            <div className="DividerText">Or</div>
+            <div className='VerticalDivider' style={{height: "36px", paddingTop: "6px"}}></div>
+          </Stack>
+          
+        </div>
       
-        <input type='file' onChange={handleFileChange} />
+
+        <div>
+          <label> Upload your file here</label> <br />
+          <input className="Upload" type='file' onChange={handleFileChange} />
+        </div>
+        
 
         
         </Stack>
@@ -100,6 +109,8 @@ export const PrerecordedControl = ({tokenRef, resultRef, setTranscript, handleCl
           <button className="SecondaryButton" onClick={handleClearText}> Clear Text </button>
         </Stack>
       </Stack>
+
+      </Container>
         
     );
 };

@@ -181,6 +181,7 @@ option {
   line-height: 145%; /* 20.3px */
 }
 
+
 .VerticalDivider {
   border-left: 1px solid #616165;
 }
@@ -199,19 +200,20 @@ option {
 
 .Upload {
   display: flex;
-  padding: 16px var(--side-padding, 24px);
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
+  width: 360px;
+  height: 24px;
+  padding: 10px;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 13px;
+  flex-shrink: 0;
 
-  border-radius: 4px;
-  border: 1px solid var(--grays-ghost-white, #FBFBFF);
-  background: var(--grays-ghost-white, #FBFBFF);
 
-  color: var(--text-dark-text-on-a-light-bg, #101014);
+  color: #E1E1E5;
   font-family: Inter;
   font-size: 14px;
   font-style: normal;
   font-weight: 700;
   line-height: 145%; /* 20.3px */
 }
+
