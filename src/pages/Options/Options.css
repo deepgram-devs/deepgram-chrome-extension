@@ -7,3 +7,59 @@ body {
     linear-gradient(270deg, #673afc -50%, #101014 100%, #673afc -100%);
 }
 
+label {
+  color: var(--grays-ghost-white, #FBFBFF);
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 140%; /* 22.4px */
+}
+
+select {
+  display: inline-flex;
+  width: 100px;
+  height: 30px;
+  align-items: center;
+  margin-left: auto;
+
+  border-radius: var(--radius, 4px);
+  border: 1px solid var(--border, #4E4E52);
+
+  color: var(--grays-ghost-white, #FBFBFF);
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 19.6px */
+
+  background-color: #101014;
+}
+
+option {
+  flex: 1 0 0;
+
+  color: var(--grays-ghost-white, #FBFBFF);
+  /* body/Body1 */
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 145%; /* 23.2px */
+
+}
+
+.Row {
+  display: flex;
+  padding: 4px;
+}
+
+.MuiTypography-root.Label {
+  color: var(--text-header, #FBFBFF);
+/* header/H3 */
+font-family: ABC Favorit;
+font-size: 20px;
+font-style: normal;
+font-weight: 700;
+line-height: 140%; /* 28px */
+}

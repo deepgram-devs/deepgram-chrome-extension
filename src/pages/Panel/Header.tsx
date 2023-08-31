@@ -22,7 +22,6 @@ export const Header = ({ projects, selectedProject, setSelectedProject, modes, m
               id="projects"
               value={selectedProject}
               onChange={handleProjectChange}
-              label="Select Project"
             >
             {projects.map((project) => (
               <option 
