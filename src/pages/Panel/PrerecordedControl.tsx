@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Button, Stack, FormControlLabel, Checkbox, TextField, Input} from '@mui/material';
+import { Button, Stack, FormControlLabel, Checkbox, TextField, Input, Typography} from '@mui/material';
 import { formatTranscription, buildQueryString } from './utils';
 
 import './Panel.css'
@@ -64,32 +64,37 @@ export const PrerecordedControl = ({tokenRef, resultRef, setTranscript, handleCl
       <Stack>
         <Stack 
           direction={"row"} 
-          justifyContent={"space-around"}
+          justifyContent={"center"}
           alignItems={"center"}
-          minHeight={100}
+          minHeight={150}
+          spacing={20}
         > 
-        <TextField 
-          label="Paste your URL here" 
-          onChange={handleTextChange}
-          inputProps={{ 
-            style: { 
-              color: "#FBFBFF",
-              backgroundColor: "#101014"
-            } 
-          }}
-          InputLabelProps={{
-            style: { 
-              color: '#4E4E52' 
-            },
-          }}
-        ></TextField>
+        <div>
+          <label> Paste your URL here</label> <br />
+          <input 
+            className="URLInput" 
+            type="text" 
+            placeholder="www.example.com/sample.wav"
+            onChange={handleTextChange}
+            >
+      
+          </input>
+        </div>
+        
+        <Stack justifyContent={"center"} alignItems={"center"} style={{margin: "auto"}} >
+          <div className='VerticalDivider' style={{height: "18px", paddingBottom: "6px"}}></div>
+          <div className="DividerText">Or</div>
+          <div className='VerticalDivider' style={{height: "36px", paddingTop: "6px"}}></div>
+        </Stack>
+      
         <input type='file' onChange={handleFileChange} />
+
+        
         </Stack>
         <Stack
           direction={"row"} 
-          justifyContent={"space-evenly"}
+          justifyContent={"space-around"}
           alignItems={"center"}
-          minHeight={100}
         >
           <button  className="PrimaryButton" onClick={handleTranscribe}>Transcribe</button>
           <button className="SecondaryButton" onClick={handleClearText}> Clear Text </button>

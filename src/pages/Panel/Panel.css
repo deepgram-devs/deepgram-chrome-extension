@@ -157,3 +157,63 @@ option {
   flex-shrink: 0;
   resize: none;
 }
+
+.InputWrapper {
+}
+
+.URLInput {
+  display: flex;
+  width: 360px;
+  height: 24px;
+  padding: 10px;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 13px;
+  flex-shrink: 0;
+
+  border: 2px solid var(--gray-raisin-black, #2C2C33);
+  background: var(--gray-jet-black, #101014);
+  background: var(--bg, #101014);
+
+  color: var(--gray-slate, #949498);
+  font-family: Inter;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 145%; /* 20.3px */
+}
+
+.VerticalDivider {
+  border-left: 1px solid #616165;
+}
+
+.DividerText {
+  color: var(--text-body-default, #E1E1E5);
+  font-family: ABC Favorit;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 125%; /* 17.5px */
+  letter-spacing: 0.28px;
+  text-transform: uppercase;
+}
+
+
+.Upload {
+  display: flex;
+  padding: 16px var(--side-padding, 24px);
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  border-radius: 4px;
+  border: 1px solid var(--grays-ghost-white, #FBFBFF);
+  background: var(--grays-ghost-white, #FBFBFF);
+
+  color: var(--text-dark-text-on-a-light-bg, #101014);
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 145%; /* 20.3px */
+}
