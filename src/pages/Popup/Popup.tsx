@@ -31,7 +31,7 @@ const Popup = () => {
       return (
         <>
           <button className="PrimaryButton" onClick={handleTranscribe}> Transcribe </button>
-          <button className="PrimaryButton" onClick={handleOption}> Settings</button>
+          <button className="SecondaryButton" onClick={handleOption}> Settings</button>
         </>
       );
     } else {

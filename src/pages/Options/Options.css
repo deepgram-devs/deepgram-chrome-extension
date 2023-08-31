@@ -62,4 +62,11 @@ font-size: 20px;
 font-style: normal;
 font-weight: 700;
 line-height: 140%; /* 28px */
+padding-top: 14px;
+padding-bottom: 14px;
+}
+
+.MuiContainer-root {
+  background: #1A1A1F;
+  box-shadow: 0px 2px 4px 0px #00000040;
 }

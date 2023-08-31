@@ -141,7 +141,7 @@ option {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  border: none;
+  border: 1px solid #2C2C33;
 
   color: var(--text-body, #E1E1E5);
   font-family: Fira Code;

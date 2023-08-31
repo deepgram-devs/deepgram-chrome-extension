@@ -69,13 +69,12 @@ export const Recorder = ({tokenRef, resultRef, setTranscript, handleClearText}) 
       <Stack>
         <Stack 
           direction={"row"} 
-          justifyContent="center"
+          justifyContent="space-around"
           padding={2}
-          spacing={8}
         > 
-        <Button variant='contained' onClick={handleRecord}>{recording ? "End Recording" : "Start Recording"}</Button>
-        <Button variant="contained" onClick={handleTranscribe}>Transcribe</Button>
-        <Button variant="contained" onClick={handleClearText}>Clear Text</Button>
+        <button className="PrimaryButton" onClick={handleRecord}>{recording ? "End Recording" : "Start Recording"}</button>
+        <button className="PrimaryButton" onClick={handleTranscribe}>Transcribe</button>
+        <button className="SecondaryButton" onClick={handleClearText}>Clear Text</button>
         </Stack>
         
       </Stack>
