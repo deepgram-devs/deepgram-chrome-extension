@@ -20,7 +20,7 @@ export const formatTranscription = (data: any, options: any) : string => {
 
         let transcript = "";
         for (const speaker in speakers) {
-            transcript += ("[Speaker " + speaker + "] " + speakers[speaker] + "\n");
+            transcript += ("Speaker " + speaker + " " + speakers[speaker] + "\n");
         }
         return transcript;
     } else {
@@ -54,7 +54,13 @@ export const buildQueryString = (option) => {
 export const toWebVTT = (results : Array<any>, lineLength = 8) : string => {
     if (results.length === 0) return "";
     console.log(results);
-    const lastWords = results[results.length - 1]["channel"]["alternatives"][0]["words"];
+    let lastWords;
+    if (results[0]["channel"]) {
+      lastWords = results[results.length - 1]["channel"]["alternatives"][0]["words"];
+    } else {
+      lastWords = results[results.length - 1]["results"]["channels"][0]["alternatives"][0]["words"]
+    }
+    
     const lines: string[] = [];
     lines.push("WEBVTT");
     lines.push("");
@@ -63,11 +69,15 @@ export const toWebVTT = (results : Array<any>, lineLength = 8) : string => {
     lines.push(`Request Id: ${results[0]["metadata"]["request_id"]}`);
     lines.push(`Created: ${new Date().toISOString()}`);
     lines.push(`Duration: ${lastWords[lastWords.length - 1]["end"]}`);
-    lines.push(`Channels: ${results[0]["channel_index"].length}`);
     lines.push("");
 
     results.forEach(result => {
-        const wordChunks = chunk(result["channel"]["alternatives"][0]["words"], lineLength);
+      let wordChunks;
+      if (results[0]["channel"]) {
+        wordChunks = chunk(result["channel"]["alternatives"][0]["words"], lineLength);
+      } else {
+        wordChunks = chunk(result["results"]["channels"][0]["alternatives"][0]["words"], lineLength);
+      }
         const limitedLines : string[] = [];
 
         wordChunks.forEach((words) => {
@@ -98,7 +108,12 @@ export const toSRT = (results : Array<any>, lineLength = 8) : string => {
 
     let entry = 1;
     results.forEach(result => {
-        const wordChunks = chunk(result["channel"]["alternatives"][0]["words"], lineLength);
+      let wordChunks;
+      if (results[0]["channel"]) {
+        wordChunks = chunk(result["channel"]["alternatives"][0]["words"], lineLength);
+      } else {
+        wordChunks = chunk(result["results"]["channels"][0]["alternatives"][0]["words"], lineLength);
+      }
         const limitedLines : string[] = [];
 
         wordChunks.forEach((words) => {

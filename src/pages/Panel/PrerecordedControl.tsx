@@ -43,16 +43,21 @@ export const PrerecordedControl = ({tokenRef, resultRef, setTranscript, handleCl
       const res = await fetch(`https://api.deepgram.com/v1/listen${queryString}`, fetchOptions);
 
       const {metadata, results} = await res.json();
-      resultRef.current.push(results);
-      console.log(results);
-      let transcript;
-      if (results["channels"][0]["alternatives"][0]["paragraphs"]) {
-        transcript = results["channels"][0]["alternatives"][0]["paragraphs"]["transcript"];
+      if (results) {
+        resultRef.current.push({metadata, results});
+        console.log(results);
+        let transcript;
+        if (results["channels"][0]["alternatives"][0]["paragraphs"]) {
+          transcript = results["channels"][0]["alternatives"][0]["paragraphs"]["transcript"];
+        } else {
+          transcript = results["channels"][0]["alternatives"][0]["transcript"];
+        }
+      
+        setTranscript(transcript);
       } else {
-        transcript = results["channels"][0]["alternatives"][0]["transcript"];
+        alert("Receive an empty result from the backend. Please check your input source");
       }
       
-      setTranscript(transcript);
     };
 
     const handleFileChange = (event) => {
@@ -93,8 +98,12 @@ export const PrerecordedControl = ({tokenRef, resultRef, setTranscript, handleCl
       
 
         <div>
-          <label> Upload your file here</label> <br />
-          <input className="Upload" type='file' onChange={handleFileChange} />
+          <div><label> Upload your file here</label></div>
+          <div className='UploadRow'>
+          <label className="UploadButton"> Upload File
+            <input type='file' onChange={handleFileChange} />
+          </label>
+          </div>
         </div>
         
 
