@@ -10,7 +10,7 @@ const Popup = () => {
 
   // Capture Mic
   const handleTranscribe = async () => {
-    chrome.tabs.create({url: 'panel.html'});
+    chrome.tabs.create({url: 'app.html'});
   }
 
   const handleOption = () => {

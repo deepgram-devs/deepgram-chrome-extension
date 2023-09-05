@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { Stack, Container} from '@mui/material';
 import { formatTranscription, buildQueryString } from './utils';
 
-import './Panel.css'
+import './App.css'
 
 export const PrerecordedControl = ({tokenRef, resultRef, setTranscript, handleClearText}) => {
 

@@ -1,6 +1,6 @@
-import React, {  } from 'react';
+import React from 'react';
 import {  FormControl, Stack, Select, MenuItem } from '@mui/material';
-import './Panel.css'
+import './App.css'
 
 export const Header = ({ projects, selectedProject, setSelectedProject, modes, mode, setMode }) => {
 

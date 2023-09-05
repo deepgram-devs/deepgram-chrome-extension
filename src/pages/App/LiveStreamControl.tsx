@@ -2,7 +2,7 @@ import React from 'react';
 import { styled, Stack, Switch, Typography } from '@mui/material';
 import useStream from './useStream';
 
-import './Panel.css'
+import './App.css'
 
 export const LiveStreamControl = ({tokenRef, resultRef, setTranscript, handleClearText}) => {
     const { 

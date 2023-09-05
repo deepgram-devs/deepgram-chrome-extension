@@ -4,7 +4,7 @@ import { buildQueryString } from './utils';
 import MicOn from '../../assets/img/mic-on.svg';
 import MicOff from '../../assets/img/mic-off.svg';
 
-import './Panel.css'
+import './App.css'
 
 export const Recorder = ({tokenRef, resultRef, setTranscript, handleClearText}) => {
 
