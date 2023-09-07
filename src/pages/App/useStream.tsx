@@ -19,7 +19,6 @@ const useStream = () => {
       const {livestreamOptions} = deepgramOptions;
 
       const queryString = buildQueryString(livestreamOptions);
-      console.log(queryString);
       if (!token) {
 				alert("Session expired. Please login and refresh page.");
       } else if (isStreaming) {
@@ -73,7 +72,6 @@ const useStream = () => {
                 
       socketRef.current.addEventListener('message', msg => {
         const data = JSON.parse(msg.data);
-        console.log("msg data: ", data);
         if (!data.channel) {
         // Server will send metadata if it closes the connection. 
         // Todo: tell user to restart

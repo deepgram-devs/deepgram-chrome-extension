@@ -15,7 +15,6 @@ const livestreamQueryParams = [
   {label: 'Diarize', key:'diarize', options:['', 'true', 'false']},
   {label: 'Smart Format', key:'smart_format', options:['', 'true', 'false']},
   {label: 'Filler Words', key:'filler_words', options:['', 'true', 'false']},
-  {label: 'Multichannel', key:'multichannel', options:['', 'true', 'false']},
   {label: 'Numerals', key:'numerals', options:['', 'true', 'false']},
   {label: 'Interim Results', key:'interim_results', options:['', 'true', 'false']}
 ];
@@ -35,8 +34,6 @@ const prerecordedQueryParams = [
   {label: 'Diarize', key:'diarize', options:['', 'true', 'false']},
   {label: 'Smart Format', key:'smart_format', options:['', 'true', 'false']},
   {label: 'Filler Words', key:'filler_words', options:['', 'true', 'false']},
-  {label: 'Multichannel', key:'multichannel', options:['', 'true', 'false']},
-  {label: 'Detect Topics', key:'detect_topics', options:['', 'true', 'false']},
   {label: 'Numerals', key:'numerals', options:['', 'true', 'false']},
   {label: 'Utterances', key:'utterances', options:['', 'true', 'false']},
   {label: 'Measurements', key:'measurements', options:['', 'true', 'false']},

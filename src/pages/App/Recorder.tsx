@@ -31,7 +31,6 @@ export const Recorder = ({tokenRef, resultRef, setTranscript, handleClearText}) 
       const {metadata, results} = await res.json();
       if (results) {
         resultRef.current.push({metadata, results});
-        console.log(results);
         let transcript;
         if (results["channels"][0]["alternatives"][0]["paragraphs"]) {
           transcript = results["channels"][0]["alternatives"][0]["paragraphs"]["transcript"];
