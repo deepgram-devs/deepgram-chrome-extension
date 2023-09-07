@@ -35,7 +35,7 @@ const App: React.FC = () => {
           }]},
         "condition": { 
           "urlFilter": "https://manage.deepgram.com", 
-          "initiatorDomains": ["galjhlnbbjhaihlbhnanjgpndjmjipfn"],
+          "initiatorDomains": [chrome.runtime.id],
           "resourceTypes": ["xmlhttprequest"]
         }}],
       removeRuleIds: [1]
@@ -60,7 +60,8 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const getKey = async () => {
-      const payload = {
+      const payload = 
+      {
         "comment": "auto generated api chrome extension key",
         "dg_internal_tags": [],
         "scopes": ["member"],        
