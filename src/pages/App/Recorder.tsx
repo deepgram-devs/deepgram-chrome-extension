@@ -1,8 +1,10 @@
 import React, {useState, useRef } from 'react';
-import { Button, Stack, TextField, Input} from '@mui/material';
-import { formatTranscription, buildQueryString } from './utils';
+import { Stack, Typography } from '@mui/material';
+import { buildQueryString } from './utils';
+import MicOn from '../../assets/img/mic-on.svg';
+import MicOff from '../../assets/img/mic-off.svg';
 
-import './Panel.css'
+import './App.css'
 
 export const Recorder = ({tokenRef, resultRef, setTranscript, handleClearText}) => {
 
@@ -27,10 +29,21 @@ export const Recorder = ({tokenRef, resultRef, setTranscript, handleClearText}) 
       const res = await fetch(`https://api.deepgram.com/v1/listen${queryString}`, fetchOptions);
 
       const {metadata, results} = await res.json();
-      resultRef.current.push(results);
-      console.log(results);
-      const transcript = results["channels"][0]["alternatives"][0]["transcript"];
-      setTranscript(transcript);
+      if (results) {
+        resultRef.current.push({metadata, results});
+        console.log(results);
+        let transcript;
+        if (results["channels"][0]["alternatives"][0]["paragraphs"]) {
+          transcript = results["channels"][0]["alternatives"][0]["paragraphs"]["transcript"];
+        } else {
+          transcript = results["channels"][0]["alternatives"][0]["transcript"];
+        }
+      
+        setTranscript(transcript);
+      } else {
+        alert("Receive an empty result from the backend. Please check your input source");
+      }
+      
     };
 
     const handleRecord = async() => {
@@ -69,13 +82,20 @@ export const Recorder = ({tokenRef, resultRef, setTranscript, handleClearText}) 
       <Stack>
         <Stack 
           direction={"row"} 
-          justifyContent="center"
-          padding={2}
-          spacing={8}
+          justifyContent={"space-around"}
+          alignItems={"center"}
+          minHeight={100}
         > 
-        <Button variant='contained' onClick={handleRecord}>{recording ? "End Recording" : "Start Recording"}</Button>
-        <Button variant="contained" onClick={handleTranscribe}>Transcribe</Button>
-        <Button variant="contained" onClick={handleClearText}>Clear Text</Button>
+        <div
+            className="Record"
+            onClick={handleRecord}
+        >
+            <Typography className="Label"> {recording ? "End Recording" : "Start Recording"} </Typography>
+            <img src={recording ? MicOn : MicOff} alt="Logo" style={{height: "32px"}}/>
+            
+        </div>
+        <button className="PrimaryButton" onClick={handleTranscribe}>Transcribe</button>
+        <button className="SecondaryButton" onClick={handleClearText}>Clear Text</button>
         </Stack>
         
       </Stack>

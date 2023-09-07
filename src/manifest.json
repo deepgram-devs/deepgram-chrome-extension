@@ -4,9 +4,6 @@
   "description": "A chrome extension for audio transcription, powered by Deepgram",
   "permissions": [
     "cookies",
-    "activeTab",
-    "tabCapture", 
-    "scripting",
     "storage",
     "declarativeNetRequest"
   ],

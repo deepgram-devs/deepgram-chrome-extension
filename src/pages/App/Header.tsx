@@ -1,14 +1,16 @@
-import React, {  } from 'react';
+import React from 'react';
 import {  FormControl, Stack, Select, MenuItem } from '@mui/material';
-import './Panel.css'
+import './App.css'
 
 export const Header = ({ projects, selectedProject, setSelectedProject, modes, mode, setMode }) => {
 
     const handleProjectChange = (e) => {
+        console.log("handle project change: ", e.target.value);
         setSelectedProject(e.target.value);
     }
 
     const handleModeChange = (e) => {
+      console.log("handle mode change: ", e.target.value);
       setMode(e.target.value);
     }
 
@@ -16,56 +18,35 @@ export const Header = ({ projects, selectedProject, setSelectedProject, modes, m
       if (projects.length > 0) {
         return (
           <Stack direction="row" alignContent="left" spacing={2}>
-          <FormControl>
-            <Select
-              labelId="project-label"
+            <select
               id="projects"
               value={selectedProject}
               onChange={handleProjectChange}
-              label="Select Project"
-              style={{
-                backgroundColor: "#101014",
-                color: "#E1E1E5"
-              }}
             >
             {projects.map((project) => (
-              <MenuItem 
+              <option 
               key={project.project_id} 
               value={project.project_id}
-              style={{
-                backgroundColor: "#101014",
-                color: "#E1E1E5"
-              }}
               >
               {project.name}
-              </MenuItem>
+              </option>
             ))}
-            </Select>
-          </FormControl>
-          <FormControl >
-            <Select
+            </select>
+  
+            <select
               id="modes"
               value={mode}
               onChange={handleModeChange}
-              style={{
-                backgroundColor: "#101014",
-                color: "#E1E1E5"
-              }}
             >
             {modes.map((mode, index) => (
-              <MenuItem 
+              <option 
                 key={index} 
                 value={mode}
-                style={{
-                  backgroundColor: "#101014",
-                  color: "#E1E1E5"
-                }}
                 >
               {mode}
-              </MenuItem>
+              </option>
             ))}
-            </Select>
-          </FormControl>
+            </select>
           </Stack>
         );
       }

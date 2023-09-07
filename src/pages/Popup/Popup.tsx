@@ -3,14 +3,14 @@ import Logo from '../../assets/img/wordmark.svg';
 import { useState, useEffect } from 'react';
 
 import './Popup.css';
-import {  Button, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 
 const Popup = () => {
   const [user, setUser] = useState(null);
 
   // Capture Mic
   const handleTranscribe = async () => {
-    chrome.tabs.create({url: 'panel.html'});
+    chrome.tabs.create({url: 'app.html'});
   }
 
   const handleOption = () => {
@@ -30,8 +30,8 @@ const Popup = () => {
     if (user) {
       return (
         <>
-          <Button className="PrimaryButton" variant="contained" onClick={handleTranscribe}> Transcribe </Button>
-          <Button className="PrimaryButton" variant="contained" onClick={handleOption}> Settings</Button>
+          <button className="PrimaryButton" onClick={handleTranscribe}> Transcribe </button>
+          <button className="SecondaryButton" onClick={handleOption}> Settings</button>
         </>
       );
     } else {

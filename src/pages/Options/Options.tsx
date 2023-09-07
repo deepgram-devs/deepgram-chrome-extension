@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Options.css';
-import { Container, FormGroup, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Divider} from '@mui/material';
+import { Container, Stack, Divider, Typography} from '@mui/material';
 
 
 const livestreamQueryParams = [
@@ -98,50 +98,50 @@ const Options: React.FC = () => {
 
   return (
     <div>
-      <Container maxWidth="sm" >
-        <FormGroup >
-      {livestreamQueryParams.map((param, index) => (
-        <FormControl 
-          key={index}  
-          margin="dense"
-          
-          >
-          <InputLabel>{param.label}</InputLabel>
-            <Select
-                key={index}
-                name={param.key}
-                value={livestreamOptions[param.key] || ''}
-                onChange={handleDropdownChange('livestream')}
-              > 
-                {param.options.map((option, idx) => {
-                  return <MenuItem key={idx} value={option}>{option}</MenuItem>
-                })}
-              </Select>
-            </FormControl>
-            ))}
-        </FormGroup>
-      </Container>
+      <Container maxWidth="xs" >
+        <Stack>
+          <Typography className="Label"> Live Stream Settings </Typography>
+          {
+            livestreamQueryParams.map((param, index) => (
+            <div className="Row">
+              <label>{param.label}</label>
+                <select
+                  key={index}
+                  name={param.key}
+                  value={livestreamOptions[param.key] || ''}
+                  onChange={handleDropdownChange('livestream')}
+                > 
+                  {
+                    param.options.map((option, idx) => {
+                      return <option key={idx} value={option}>{option}</option>
+                    })
+                  }
+              </select>
+            </div>
+            ))
+          }
+          <Typography className="Label"> Prerecorded Settings </Typography>
+          {
+            prerecordedQueryParams.map((param, index) => (
+              <div className="Row">
+                <label>{param.label}</label>
+                <select
+                  key={index}
+                  name={param.key}
+                  value={prerecordedOptions[param.key] || ''}
+                  onChange={handleDropdownChange('prerecorded')}
+                > 
+                {
+                  param.options.map((option, idx) => {
+                    return <option key={idx} value={option}>{option}</option>
+                  })
+                }
+                </select>
+              </div>
+            ))
+          }
+        </Stack>
       
-      <Divider />
-      
-      <Container maxWidth="sm">
-        <FormGroup >
-      {prerecordedQueryParams.map((param, index) => (
-        <FormControl key={index} variant="outlined" margin="dense">
-          <InputLabel>{param.label}</InputLabel>
-            <Select
-                key={index}
-                name={param.key}
-                value={prerecordedOptions[param.key] || ''}
-                onChange={handleDropdownChange('prerecorded')}
-              > 
-                {param.options.map((option, idx) => {
-                  return <MenuItem key={idx} value={option}>{option}</MenuItem>
-                })}
-              </Select>
-            </FormControl>
-            ))}
-      </FormGroup>
       </Container>
     </div>
   );
