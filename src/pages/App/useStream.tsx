@@ -15,11 +15,11 @@ const useStream = () => {
   const handleStream = (tokenRef, resultRef, setTranscript) => {
     return async () => {
 			const token = tokenRef.current;
-			const {deepgramOptions} = await chrome.storage.sync.get("deepgramOptions");
-      const {livestreamOptions} = deepgramOptions;
+			const {deepgramOptions} = await chrome.storage.local.get("deepgramOptions");
+      const livestreamOptions = deepgramOptions ? deepgramOptions.livestreamOptions : {};
 
-      const queryString = buildQueryString(livestreamOptions);
-      console.log(queryString);
+      const queryString = buildQueryString(livestreamOptions);;
+      
       if (!token) {
 				alert("Session expired. Please login and refresh page.");
       } else if (isStreaming) {
@@ -48,7 +48,6 @@ const useStream = () => {
 				}
 
 				try {
-          console.log(`wss://api.deepgram.com/v1/listen${queryString}`);
 					socketRef.current = new WebSocket(`wss://api.deepgram.com/v1/listen${queryString}`, ['token', token]);
 					socketRef.current.addEventListener('error', (err) => {
 						setIsStreaming(false);
@@ -73,7 +72,6 @@ const useStream = () => {
                 
       socketRef.current.addEventListener('message', msg => {
         const data = JSON.parse(msg.data);
-        console.log("msg data: ", data);
         if (!data.channel) {
         // Server will send metadata if it closes the connection. 
         // Todo: tell user to restart

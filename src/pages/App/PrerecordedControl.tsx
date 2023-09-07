@@ -10,16 +10,15 @@ export const PrerecordedControl = ({tokenRef, resultRef, setTranscript, handleCl
     const [file, setFile] = useState(null);
 
     const handleTextChange = (e) => {
-        console.log(e.target.value);
         setUrl(e.target.value);
         setFile(null);
     };
 
     const handleTranscribe = async () => {
-      const {deepgramOptions} = await chrome.storage.sync.get("deepgramOptions");
-      const {_, prerecordedOptions} = deepgramOptions; 
+      const {deepgramOptions} = await chrome.storage.local.get("deepgramOptions");
+      const prerecordedOptions = deepgramOptions ? deepgramOptions.prerecordedOptions : {}; 
       const queryString = buildQueryString(prerecordedOptions);
-
+      
       let fetchOptions; 
       if (file) {
         fetchOptions = {
@@ -45,7 +44,6 @@ export const PrerecordedControl = ({tokenRef, resultRef, setTranscript, handleCl
       const {metadata, results} = await res.json();
       if (results) {
         resultRef.current.push({metadata, results});
-        console.log(results);
         let transcript;
         if (results["channels"][0]["alternatives"][0]["paragraphs"]) {
           transcript = results["channels"][0]["alternatives"][0]["paragraphs"]["transcript"];

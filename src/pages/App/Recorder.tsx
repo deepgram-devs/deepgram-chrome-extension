@@ -14,9 +14,12 @@ export const Recorder = ({tokenRef, resultRef, setTranscript, handleClearText}) 
     
     
     const handleTranscribe = async () => {
-        const {deepgramOptions} = await chrome.storage.sync.get("deepgramOptions");
+        const {deepgramOptions} = await chrome.storage.local.get("deepgramOptions");
         const {_, prerecordedOptions} = deepgramOptions; 
-        const queryString = buildQueryString(prerecordedOptions);
+        let queryString = "";
+        if (prerecordedOptions) {
+          queryString = buildQueryString(prerecordedOptions);
+        }
 
         const fetchOptions = {
             method: "POST",
@@ -31,7 +34,6 @@ export const Recorder = ({tokenRef, resultRef, setTranscript, handleClearText}) 
       const {metadata, results} = await res.json();
       if (results) {
         resultRef.current.push({metadata, results});
-        console.log(results);
         let transcript;
         if (results["channels"][0]["alternatives"][0]["paragraphs"]) {
           transcript = results["channels"][0]["alternatives"][0]["paragraphs"]["transcript"];

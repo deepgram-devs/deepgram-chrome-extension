@@ -15,14 +15,13 @@ const livestreamQueryParams = [
   {label: 'Diarize', key:'diarize', options:['', 'true', 'false']},
   {label: 'Smart Format', key:'smart_format', options:['', 'true', 'false']},
   {label: 'Filler Words', key:'filler_words', options:['', 'true', 'false']},
-  {label: 'Multichannel', key:'multichannel', options:['', 'true', 'false']},
   {label: 'Numerals', key:'numerals', options:['', 'true', 'false']},
   {label: 'Interim Results', key:'interim_results', options:['', 'true', 'false']}
 ];
 
 const prerecordedQueryParams = [
   {label: 'Model', key: 'model', options: ['general', 'meeting', 'phonecall', 'voicemail', 'finance', 
-  'conversationalai', 'video', 'whisper']},
+  'conversationalai', 'video', 'whisper', '']},
   {label: 'Tier', key: 'tier', options: ['', 'nova', 'enhanced', 'base']},
   {label: 'Languages', key: 'language', options:['', 'da', 'en', 'en-AU', 'en-GB', 'en-IN', 'en-NZ',
   'en-US', 'es', 'es-419', 'fr', 'fr-CA', 'hi', 'hi-Latn', 'id',
@@ -35,8 +34,6 @@ const prerecordedQueryParams = [
   {label: 'Diarize', key:'diarize', options:['', 'true', 'false']},
   {label: 'Smart Format', key:'smart_format', options:['', 'true', 'false']},
   {label: 'Filler Words', key:'filler_words', options:['', 'true', 'false']},
-  {label: 'Multichannel', key:'multichannel', options:['', 'true', 'false']},
-  {label: 'Detect Topics', key:'detect_topics', options:['', 'true', 'false']},
   {label: 'Numerals', key:'numerals', options:['', 'true', 'false']},
   {label: 'Utterances', key:'utterances', options:['', 'true', 'false']},
   {label: 'Measurements', key:'measurements', options:['', 'true', 'false']},
@@ -49,14 +46,18 @@ const Options: React.FC = () => {
   
 
   useEffect(() => {
-    chrome.storage.sync.get("deepgramOptions")
+    chrome.storage.local.get("deepgramOptions")
     .then((result) => {
-      const {prerecordedOptions, livestreamOptions} = result;
-      if (prerecordedOptions) {
-        setPrerecordedOptions(prerecordedOptions);
-      }
-      if (livestreamOptions) {
-        setLivestreamOptions(livestreamOptions);
+      if (result && result.deepgramOptions) {
+        const prerecordedOptions = result.deepgramOptions.prerecordedOptions;
+        const livestreamOptions = result.deepgramOptions.livestreamOptions;
+        if (prerecordedOptions) {
+          setPrerecordedOptions(prerecordedOptions);
+        }
+        if (livestreamOptions) {
+          setLivestreamOptions(livestreamOptions);
+        }
+
       }
     });
 
@@ -68,7 +69,7 @@ const Options: React.FC = () => {
       livestreamOptions: livestreamOptions
     };
     
-    chrome.storage.sync.set({
+    chrome.storage.local.set({
       deepgramOptions: options
     });
   }, [livestreamOptions, prerecordedOptions]);
