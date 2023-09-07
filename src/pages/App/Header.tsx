@@ -5,12 +5,10 @@ import './App.css'
 export const Header = ({ projects, selectedProject, setSelectedProject, modes, mode, setMode }) => {
 
     const handleProjectChange = (e) => {
-        console.log("handle project change: ", e.target.value);
         setSelectedProject(e.target.value);
     }
 
     const handleModeChange = (e) => {
-      console.log("handle mode change: ", e.target.value);
       setMode(e.target.value);
     }
 

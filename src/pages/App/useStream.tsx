@@ -15,10 +15,11 @@ const useStream = () => {
   const handleStream = (tokenRef, resultRef, setTranscript) => {
     return async () => {
 			const token = tokenRef.current;
-			const {deepgramOptions} = await chrome.storage.sync.get("deepgramOptions");
-      const {livestreamOptions} = deepgramOptions;
+			const {deepgramOptions} = await chrome.storage.local.get("deepgramOptions");
+      const livestreamOptions = deepgramOptions ? deepgramOptions.livestreamOptions : {};
 
-      const queryString = buildQueryString(livestreamOptions);
+      const queryString = buildQueryString(livestreamOptions);;
+      
       if (!token) {
 				alert("Session expired. Please login and refresh page.");
       } else if (isStreaming) {

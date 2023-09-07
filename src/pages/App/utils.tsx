@@ -3,6 +3,7 @@ import utc from "dayjs/plugin/utc";
 dayjs.extend(utc);
 
 export const formatTranscription = (data: any, options: any) : string => {
+    console.log(data);
     let result = data.channel.alternatives[0];
     if (options.diarize === "true") {
         let speakers = {};

@@ -15,10 +15,10 @@ export const PrerecordedControl = ({tokenRef, resultRef, setTranscript, handleCl
     };
 
     const handleTranscribe = async () => {
-      const {deepgramOptions} = await chrome.storage.sync.get("deepgramOptions");
-      const {_, prerecordedOptions} = deepgramOptions; 
+      const {deepgramOptions} = await chrome.storage.local.get("deepgramOptions");
+      const prerecordedOptions = deepgramOptions ? deepgramOptions.prerecordedOptions : {}; 
       const queryString = buildQueryString(prerecordedOptions);
-
+      
       let fetchOptions; 
       if (file) {
         fetchOptions = {
