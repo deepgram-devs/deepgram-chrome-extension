@@ -47,7 +47,6 @@ const useStream = () => {
 				}
 
 				try {
-          console.log(`wss://api.deepgram.com/v1/listen${queryString}`);
 					socketRef.current = new WebSocket(`wss://api.deepgram.com/v1/listen${queryString}`, ['token', token]);
 					socketRef.current.addEventListener('error', (err) => {
 						setIsStreaming(false);
