@@ -114,7 +114,9 @@ export const Recorder = ({
         <button className="PrimaryButton" onClick={handleTranscribe}>
           Transcribe
         </button>
-        {/* <button className="SecondaryButton" onClick={handleClearText}>Clear Text</button> */}
+        <button className="clear-button" onClick={handleClearText}>
+          Clear
+        </button>
       </Stack>
     </div>
   );

@@ -31,12 +31,9 @@ export const LiveStreamControl = ({
       >
         {isStreaming ? 'End Livestream' : 'Start LiveStream'}
       </button>
-      {/* <button
-            className="SecondaryButton"
-            onClick={handleClearText}
-          >
-            Clear Text
-          </button> */}
+      <button className="clear-button" onClick={handleClearText}>
+        Clear
+      </button>
     </div>
   );
 };

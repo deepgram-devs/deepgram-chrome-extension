@@ -13,6 +13,8 @@ export const PrerecordedControl = ({
   const [url, setUrl] = useState('');
   const [file, setFile] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [isTranscribing, setIsTranscribing] = useState(false);
+  const waves = [1, 2, 3, 4, 5];
 
   const handleTextChange = (e) => {
     setUrl(e.target.value);
@@ -24,6 +26,7 @@ export const PrerecordedControl = ({
   };
 
   const handleTranscribe = async () => {
+    setIsTranscribing(true);
     const { deepgramOptions } = await chrome.storage.local.get(
       'deepgramOptions'
     );
@@ -56,22 +59,26 @@ export const PrerecordedControl = ({
       `https://api.deepgram.com/v1/listen${queryString}`,
       fetchOptions
     );
+    console.log(isTranscribing, 'transcribe');
 
     const { metadata, results } = await res.json();
     if (results) {
       resultRef.current.push({ metadata, results });
+      setIsTranscribing(false);
       let transcript;
       if (results['channels'][0]['alternatives'][0]['paragraphs']) {
         transcript =
           results['channels'][0]['alternatives'][0]['paragraphs']['transcript'];
+        setIsTranscribing(false);
       } else {
         transcript = results['channels'][0]['alternatives'][0]['transcript'];
+        setIsTranscribing(false);
       }
 
       setTranscript(transcript);
     } else {
       alert(
-        'Receive an empty result from the backend. Please check your input source'
+        'Received an empty result from the backend. Please check your input source'
       );
     }
   };
@@ -114,12 +121,33 @@ export const PrerecordedControl = ({
         </div>
       </div>
       <div className="transcribe-button-container">
-        <button
-          className="PrimaryButton transcribe-button"
-          onClick={handleTranscribe}
-        >
-          Transcribe
-        </button>
+        <div>
+          <label className="transcribe-label"> Upload your file here</label>
+          <button
+            className="PrimaryButton transcribe-button"
+            onClick={handleTranscribe}
+          >
+            Transcribe
+          </button>
+          <button className="clear-button" onClick={handleClearText}>
+            {' '}
+            Clear{' '}
+          </button>
+          {isTranscribing ? (
+            <ul className="wave-container">
+              {waves.map((index) => (
+                <li className="wave" key={index}></li>
+              ))}
+            </ul>
+          ) : (
+            <ul className="wave-container">
+              {waves.map((index) => (
+                <li className="wave empty-waves" key={index}></li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <div>{isTranscribing}</div>
       </div>
     </div>
   );

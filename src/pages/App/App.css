@@ -85,6 +85,32 @@ body {
   line-height: 145%; /* 20.3px */
 }
 
+.clear-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  height: 12px;
+  width: 40px;
+  font-size: 12px;
+  padding: 10px;
+  border: transparent;
+  color: #13ef93;
+  position: absolute;
+  bottom: -410px;
+  right: 10px;
+  background-color: transparent;
+  cursor: pointer;
+  /* border: solid 1px #13ef93; */
+  border-radius: 4px;
+}
+
+.clear-button:hover,
+.url-text:hover {
+  color: #12ce7f;
+  /* border: solid 1px #12ce7f; */
+}
+
 .MuiTypography-root.Label {
   color: var(--text-body, #e1e1e5);
   /* body/Body1 */
@@ -231,13 +257,14 @@ option {
   display: none;
 }
 .url-text {
-  color: #ee028c;
+  color: #13ef93;
   padding-top: 14px;
-  font-weight: 600;
+  font-weight: 400;
   cursor: pointer;
   background: none;
   border: none;
   text-align: left;
+  font-size: 12px;
 }
 
 .record-container {
@@ -245,6 +272,7 @@ option {
   justify-content: space-around;
   align-items: center;
   padding-top: 60px;
+  position: relative;
 }
 
 .livestream-container {
@@ -252,6 +280,7 @@ option {
   justify-content: space-around;
   align-items: center;
   padding-top: 60px;
+  position: relative;
 }
 
 .audio-select {
@@ -260,6 +289,7 @@ option {
   padding-top: 60px;
   height: 200px;
   justify-content: space-around;
+  position: relative;
 }
 
 .prerecorded-container {
@@ -279,6 +309,14 @@ option {
   width: 250px;
   margin: auto;
   text-align: left;
+}
+
+.transcribe-button {
+  margin-top: 12px;
+}
+
+.transcribe-label {
+  visibility: hidden;
 }
 
 .UploadButton {
@@ -328,4 +366,125 @@ input[type='file'] {
 
   justify-content: space-around;
   align-items: center;
+}
+
+.wave-container {
+  width: 200px;
+  height: 29px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  transition: ease 0.2s;
+  position: relative;
+}
+
+.wave {
+  list-style: none;
+  height: 20px;
+  width: 4px;
+  border-radius: 10px;
+  background: #dd0070;
+  margin: 0 3px;
+  padding: 0;
+  animation-name: wave4;
+  animation-duration: 0.3s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  transition: ease 0.2s;
+}
+
+.wave:nth-child(2) {
+  animation-name: wave2;
+  animation-delay: 0.2s;
+}
+.wave:nth-child(3) {
+  animation-name: wave3;
+  animation-delay: 0.23s;
+  animation-duration: 0.4s;
+}
+.wave:nth-child(4) {
+  animation-name: wave4;
+  animation-delay: 0.1s;
+  animation-duration: 0.3s;
+}
+.wave:nth-child(5) {
+  animation-delay: 0.5s;
+}
+.wave:nth-child(6) {
+  animation-name: wave2;
+  animation-duration: 0.5s;
+}
+.wave:nth-child(8) {
+  animation-name: wave4;
+  animation-delay: 0.4s;
+  animation-duration: 0.25s;
+}
+.wave:nth-child(9) {
+  animation-name: wave3;
+  animation-delay: 0.15s;
+}
+.wave:nth-child(10) {
+  animation-delay: 0.5s;
+}
+.wave:nth-child(11) {
+  animation-name: wave2;
+  animation-duration: 0.5s;
+}
+.wave:nth-child(12) {
+  animation-name: wave3;
+  animation-delay: 0.4s;
+  animation-duration: 0.25s;
+}
+.wave:nth-child(13) {
+  animation-name: wave4;
+  animation-delay: 0.15s;
+}
+.wave:nth-child(14) {
+  animation-name: wave4;
+
+  animation-duration: 0.5s;
+}
+.wave:nth-child(15) {
+  animation-name: wave4;
+  animation-delay: 0.1s;
+  animation-duration: 0.5s;
+}
+
+@keyframes wave1 {
+  from {
+    transform: scaleY(1);
+  }
+  to {
+    transform: scaleY(0.5);
+  }
+}
+@keyframes wave2 {
+  from {
+    transform: scaleY(0.3);
+  }
+  to {
+    transform: scaleY(0.6);
+  }
+}
+@keyframes wave3 {
+  from {
+    transform: scaleY(0.6);
+  }
+  to {
+    transform: scaleY(0.8);
+  }
+}
+@keyframes wave4 {
+  from {
+    transform: scaleY(0.2);
+  }
+  to {
+    transform: scaleY(0.5);
+  }
+}
+
+.empty-waves {
+  background: transparent;
 }
