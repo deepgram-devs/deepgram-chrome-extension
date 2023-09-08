@@ -1,18 +1,17 @@
 @font-face {
-  font-family: 'ABC Favorit';
-  src: url('../../assets/font/ABCFavorit-Bold.otf') format('otf'), 
+  font-family: 'ABCFavorit';
+  src: url('../../assets/font/ABCFavorit-Bold.otf') format('opentype');
 }
-
 
 .App {
   display: flex;
-  justify-content: start; 
+  justify-content: start;
   align-items: center;
   flex-direction: column;
   flex-wrap: wrap;
   height: 100vh;
   border: 1;
-  border-color: #2C2C33;
+  border-color: #2c2c33;
 }
 
 .logo {
@@ -22,12 +21,12 @@
   flex-shrink: 0;
   width: 200px;
   fill: white;
-  padding: 15px;
+  padding: 45px 15px;
   padding-bottom: 0px;
 }
 
 a {
-  color: var(--text-link, #00E062);
+  color: var(--text-link, #00e062);
   font-family: 'Inter';
   font-size: 16px;
   font-style: normal;
@@ -38,12 +37,11 @@ a {
 .Menu {
   display: flex;
   flex-grow: 1;
-  justify-content: space-around; 
-  align-items: center;
+  justify-content: space-around;
   flex-direction: column;
   flex-wrap: wrap;
-  
-  padding: 15px;
+
+  padding: 15px 45px 45px;
 }
 
 .PrimaryButton {
@@ -58,9 +56,14 @@ a {
   height: 48px;
 
   border-radius: var(--radius, 4px);
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%), linear-gradient(40deg, #FF2EEA 5.66%, #4B3CFF 92.50%);
+  background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.2) 0%,
+      rgba(0, 0, 0, 0.2) 100%
+    ),
+    linear-gradient(40deg, #ff2eea 5.66%, #4b3cff 92.5%);
 
-  color: var(--text-header, #FBFBFF);
+  color: var(--text-header, #fbfbff);
   text-align: center;
   /* special case/button text */
   font-family: Inter;
@@ -72,10 +75,9 @@ a {
 }
 
 .PrimaryButton:hover {
-  
   border-radius: var(--radius, 4px);
-  background: linear-gradient(307deg, #FF2EEA 5.66%, #4B3CFF 92.50%);
-  box-shadow: 10px 10px 80px 0px rgba(124, 56, 250, 0.20);
+  background: linear-gradient(307deg, #ff2eea 5.66%, #4b3cff 92.5%);
+  box-shadow: 10px 10px 80px 0px rgba(124, 56, 250, 0.2);
 }
 
 .SecondaryButton {
@@ -89,8 +91,8 @@ a {
   width: 200px;
 
   border-radius: 4px;
-  border: 1px solid var(--grays-ghost-white, #FBFBFF);
-  background: var(--grays-ghost-white, #FBFBFF);
+  border: 1px solid var(--grays-ghost-white, #fbfbff);
+  background: var(--grays-ghost-white, #fbfbff);
 
   color: var(--text-dark-text-on-a-light-bg, #101014);
   font-family: Inter;
@@ -108,9 +110,12 @@ a {
 
   border-radius: 4px;
   border: 1px transparent;
-  background: var(--gradient-magenta-purple-vertical, linear-gradient(40deg, #FF2EEA 5.66%, #4B3CFF 92.50%));
+  background: var(
+    --gradient-magenta-purple-vertical,
+    linear-gradient(40deg, #ff2eea 5.66%, #4b3cff 92.5%)
+  );
 
-  color: var(--grays-ghost-white, #FBFBFF);
+  color: var(--grays-ghost-white, #fbfbff);
   font-family: Inter;
   font-size: 16px;
   font-style: normal;
