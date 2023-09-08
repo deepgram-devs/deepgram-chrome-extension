@@ -1,6 +1,8 @@
 import React from 'react';
 import { styled, Stack, Switch, Typography } from '@mui/material';
 import useStream from './useStream';
+import Logo from '../../assets/img/wordmark.svg';
+import Alf from '../../assets/img/alf.svg';
 
 import './App.css';
 
@@ -13,27 +15,33 @@ export const LiveStreamControl = ({
   const { isStreaming, allowMic, handleStream, handleAllowMic } = useStream();
 
   return (
-    <div className="livestream-container">
-      <Stack
-        direction={'row'}
-        justifyContent={'left'}
-        alignItems={'center'}
-        spacing={2}
-        minWidth={200}
-        minHeight={200}
-      >
-        {ToggleSwitch(allowMic, handleAllowMic)}
-      </Stack>
-      <button
-        className="PrimaryButton"
-        color={isStreaming ? 'error' : 'primary'}
-        onClick={handleStream(tokenRef, resultRef, setTranscript)}
-      >
-        {isStreaming ? 'End Livestream' : 'Start LiveStream'}
-      </button>
-      <button className="clear-button" onClick={handleClearText}>
-        Clear
-      </button>
+    <div className="livestream">
+      <div className="title">
+        <img className="logo" src={Logo} alt="Logo" /> <h1> Transcription</h1>
+        <img className="alf" src={Alf} />
+      </div>
+      <div className="livestream-container">
+        <Stack
+          direction={'row'}
+          justifyContent={'left'}
+          alignItems={'center'}
+          spacing={2}
+          minWidth={200}
+          minHeight={200}
+        >
+          {ToggleSwitch(allowMic, handleAllowMic)}
+        </Stack>
+        <button
+          className="PrimaryButton"
+          color={isStreaming ? 'error' : 'primary'}
+          onClick={handleStream(tokenRef, resultRef, setTranscript)}
+        >
+          {isStreaming ? 'End Livestream' : 'Start LiveStream'}
+        </button>
+        <button className="clear-button" onClick={handleClearText}>
+          Clear
+        </button>
+      </div>
     </div>
   );
 };

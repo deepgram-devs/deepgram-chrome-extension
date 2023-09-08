@@ -8,6 +8,24 @@ body {
   background-attachment: fixed;
 }
 
+.livestream {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  color: #fbfbff;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.logo {
+  width: 250px;
+  padding-right: 20px;
+}
+
 .PrimaryButton {
   display: flex;
   border: 4px;
@@ -279,14 +297,15 @@ option {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding-top: 60px;
+  padding-top: 30px;
   position: relative;
+  /* flex-direction: column; */
 }
 
 .audio-select {
   display: flex;
   align-items: center;
-  padding-top: 60px;
+  padding-top: 30px;
   height: 200px;
   justify-content: space-around;
   position: relative;
@@ -487,4 +506,11 @@ input[type='file'] {
 
 .empty-waves {
   background: transparent;
+}
+
+.alf {
+  width: 60px;
+  position: absolute;
+  top: -25px;
+  left: 120px;
 }

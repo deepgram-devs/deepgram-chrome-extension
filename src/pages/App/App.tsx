@@ -16,7 +16,7 @@ const App: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState('');
 
   const tokenRef = useRef('');
-  const modes = ['livestream', 'prerecorded', 'recorder'];
+  const modes = ['livestream', 'prerecorded'];
 
   useEffect(() => {
     chrome.declarativeNetRequest.updateDynamicRules({
@@ -184,7 +184,7 @@ const App: React.FC = () => {
             readOnly
             className="Transcript"
             value={transcript}
-            placeholder="Your Transcript Will Be Here"
+            placeholder="Human click button, transcript will be forthcoming."
           ></textarea>
         </Stack>
       </Container>

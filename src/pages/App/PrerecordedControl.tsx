@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Stack, Container } from '@mui/material';
 import { formatTranscription, buildQueryString } from './utils';
+import Logo from '../../assets/img/wordmark.svg';
+import Alf from '../../assets/img/alf.svg';
 
 import './App.css';
 
@@ -88,66 +90,72 @@ export const PrerecordedControl = ({
   };
 
   return (
-    <div className="audio-select">
-      <div className="upload-container">
-        <div>
-          <label> Upload your file here</label>
-
-          {!isVisible ? (
-            <label
-              className={`UploadButton ${isVisible ? 'visible' : 'hidden'}`}
-            >
-              {' '}
-              Upload File
-              <input type="file" onChange={handleFileChange} />
-            </label>
-          ) : (
-            <input
-              className="URLInput"
-              type="text"
-              placeholder="www.example.com/sample.wav"
-              onChange={handleTextChange}
-            ></input>
-          )}
-          {!isVisible ? (
-            <button onClick={toggleVisibility} className="url-text">
-              URL upload instead
-            </button>
-          ) : (
-            <button onClick={toggleVisibility} className="url-text">
-              File upload instead
-            </button>
-          )}
-        </div>
+    <div className="livestream">
+      <div className="title">
+        <img className="logo" src={Logo} alt="Logo" /> <h1> Transcription</h1>
+        <img className="alf" src={Alf} />
       </div>
-      <div className="transcribe-button-container">
-        <div>
-          <label className="transcribe-label"> Upload your file here</label>
-          <button
-            className="PrimaryButton transcribe-button"
-            onClick={handleTranscribe}
-          >
-            Transcribe
-          </button>
-          <button className="clear-button" onClick={handleClearText}>
-            {' '}
-            Clear{' '}
-          </button>
-          {isTranscribing ? (
-            <ul className="wave-container">
-              {waves.map((index) => (
-                <li className="wave" key={index}></li>
-              ))}
-            </ul>
-          ) : (
-            <ul className="wave-container">
-              {waves.map((index) => (
-                <li className="wave empty-waves" key={index}></li>
-              ))}
-            </ul>
-          )}
+      <div className="audio-select">
+        <div className="upload-container">
+          <div>
+            <label> Upload your file here</label>
+
+            {!isVisible ? (
+              <label
+                className={`UploadButton ${isVisible ? 'visible' : 'hidden'}`}
+              >
+                {' '}
+                Upload File
+                <input type="file" onChange={handleFileChange} />
+              </label>
+            ) : (
+              <input
+                className="URLInput"
+                type="text"
+                placeholder="www.example.com/sample.wav"
+                onChange={handleTextChange}
+              ></input>
+            )}
+            {!isVisible ? (
+              <button onClick={toggleVisibility} className="url-text">
+                URL upload instead
+              </button>
+            ) : (
+              <button onClick={toggleVisibility} className="url-text">
+                File upload instead
+              </button>
+            )}
+          </div>
         </div>
-        <div>{isTranscribing}</div>
+        <div className="transcribe-button-container">
+          <div>
+            <label className="transcribe-label"> Upload your file here</label>
+            <button
+              className="PrimaryButton transcribe-button"
+              onClick={handleTranscribe}
+            >
+              Transcribe
+            </button>
+            <button className="clear-button" onClick={handleClearText}>
+              {' '}
+              Clear{' '}
+            </button>
+            {isTranscribing ? (
+              <ul className="wave-container">
+                {waves.map((index) => (
+                  <li className="wave" key={index}></li>
+                ))}
+              </ul>
+            ) : (
+              <ul className="wave-container">
+                {waves.map((index) => (
+                  <li className="wave empty-waves" key={index}></li>
+                ))}
+              </ul>
+            )}
+          </div>
+          <div>{isTranscribing}</div>
+        </div>
       </div>
     </div>
   );
