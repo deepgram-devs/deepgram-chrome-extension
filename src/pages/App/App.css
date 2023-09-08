@@ -5,7 +5,7 @@ body {
       rgba(0, 0, 0, 0) 174.43%
     ),
     linear-gradient(270deg, #673afc -50%, #101014 100%, #673afc -100%);
-    background-attachment: fixed;
+  background-attachment: fixed;
 }
 
 .PrimaryButton {
@@ -20,9 +20,14 @@ body {
   height: 48px;
 
   border-radius: var(--radius, 4px);
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%), linear-gradient(40deg, #FF2EEA 5.66%, #4B3CFF 92.50%);
+  background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.2) 0%,
+      rgba(0, 0, 0, 0.2) 100%
+    ),
+    linear-gradient(40deg, #ff2eea 5.66%, #4b3cff 92.5%);
 
-  color: var(--text-header, #FBFBFF);
+  color: var(--text-header, #fbfbff);
   text-align: center;
   /* special case/button text */
   font-family: Inter;
@@ -35,8 +40,8 @@ body {
 
 .PrimaryButton:hover {
   border-radius: var(--radius, 4px);
-  background: linear-gradient(307deg, #FF2EEA 5.66%, #4B3CFF 92.50%);
-  box-shadow: 10px 10px 80px 0px rgba(124, 56, 250, 0.20);
+  background: linear-gradient(307deg, #ff2eea 5.66%, #4b3cff 92.5%);
+  box-shadow: 10px 10px 80px 0px rgba(124, 56, 250, 0.2);
 }
 
 .SecondaryButton {
@@ -48,16 +53,17 @@ body {
 
   height: 48px;
   width: 200px;
-
+  border-style: solid;
+  border: transparent;
   border-radius: 4px;
-  border: 1px solid var(--grays-ghost-white, #FBFBFF);
-  background: var(--grays-ghost-white, #FBFBFF);
+  border: 1px solid var(--grays-ghost-white, #fbfbff);
+  background: var(--grays-ghost-white, transparent);
 
-  color: var(--text-dark-text-on-a-light-bg, #101014);
+  color: var(--text-dark-text-on-a-light-bg, #fbfbff);
   font-family: Inter;
   font-size: 14px;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 145%; /* 20.3px */
 }
 
@@ -66,12 +72,12 @@ body {
   padding: 16px var(--side-padding, 24px);
   align-items: center;
   gap: 8px;
-
+  color: transparent;
   border-radius: 4px;
   border: 1px transparent;
-  background: var(--gradient-magenta-purple-vertical, linear-gradient(40deg, #FF2EEA 5.66%, #4B3CFF 92.50%));
+  background: #fbfbff;
 
-  color: var(--grays-ghost-white, #FBFBFF);
+  color: #101014;
   font-family: Inter;
   font-size: 14px;
   font-style: normal;
@@ -80,7 +86,7 @@ body {
 }
 
 .MuiTypography-root.Label {
-  color: var(--text-body, #E1E1E5);
+  color: var(--text-body, #e1e1e5);
   /* body/Body1 */
   font-family: Inter;
   font-size: 16px;
@@ -90,7 +96,7 @@ body {
 }
 
 label {
-  color: var(--grays-ghost-white, #FBFBFF);
+  color: var(--grays-ghost-white, #fbfbff);
   font-family: Inter;
   font-size: 16px;
   font-style: normal;
@@ -100,39 +106,58 @@ label {
 
 select {
   display: flex;
-  padding: 16px;
+  padding: 0.5rem;
   align-items: flex-start;
   gap: 8px;
   align-self: stretch;
-
-  color: var(--grays-ghost-white, #FBFBFF);
-  /* body/Body1 */
+  color: var(--grays-ghost-white, #bbbbbf);
   font-family: Inter;
   font-size: 16px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 145%; /* 23.2px */
+  background: var(--bg, #101014);
+  border-radius: 2px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  background: url('../../assets/img/chevron-down.svg');
+  background-repeat: no-repeat;
+  background-size: 15px 15px;
+  background-position: right;
+  background-origin: padding-box;
+  border: none;
+}
 
-  border: 2px solid var(--border, #4E4E52);
-  background: var(--bg, #101014); 
+.projects {
+  width: 250px;
+  text-overflow: ellipsis;
+}
+
+.modes {
+  border-radius: 2px;
+  width: 125px;
+}
+
+.wrapper {
+  display: flex;
+  padding: 0.5em;
+  align-items: center;
 }
 
 option {
   flex: 1 0 0;
-
-  color: var(--grays-ghost-white, #FBFBFF);
-  /* body/Body1 */
+  color: var(--grays-ghost-white, #fbfbff);
   font-family: Inter;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 145%; /* 23.2px */
-
 }
 
 .Transcript {
   display: flex;
-  width:100%;
+  width: 100%;
   margin: 20px;
   padding: 24px;
   padding-top: 16px;
@@ -141,27 +166,24 @@ option {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  border: 1px solid #2C2C33;
+  border: 1px solid #2c2c33;
 
-  color: var(--text-body, #E1E1E5);
+  color: var(--text-body, #e1e1e5);
   font-family: Fira Code;
   font-size: 14px;
   font-style: normal;
   font-weight: 450;
   line-height: 150%;
   letter-spacing: 0.42px;
-  background-color: #1A1A1F;
-  
-
+  background-color: #1a1a1f;
   overflow-y: auto;
   flex-shrink: 0;
   resize: none;
 }
 
-
 .URLInput {
   display: flex;
-  width: 360px;
+  width: 260px;
   height: 24px;
   padding: 10px;
   align-items: flex-start;
@@ -169,7 +191,7 @@ option {
   margin-top: 13px;
   flex-shrink: 0;
 
-  border: 2px solid var(--gray-raisin-black, #2C2C33);
+  border: 2px solid var(--gray-raisin-black, #2c2c33);
   background: var(--gray-jet-black, #101014);
   background: var(--bg, #101014);
 
@@ -186,7 +208,7 @@ option {
 }
 
 .DividerText {
-  color: var(--text-body-default, #E1E1E5);
+  color: var(--text-body-default, #e1e1e5);
   font-family: ABC Favorit;
   font-size: 14px;
   font-style: normal;
@@ -196,15 +218,67 @@ option {
   text-transform: uppercase;
 }
 
+.label-url {
+  font-weight: 300;
+  font-size: 13px;
+}
 
-.UploadRow {
+.label-url-container {
+  margin-top: 30px;
+}
+
+.upload-input {
+  display: none;
+}
+.url-text {
+  color: #ee028c;
+  padding-top: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background: none;
+  border: none;
+  text-align: left;
+}
+
+.record-container {
   display: flex;
-  width: 360px;
-  height: 24px;
-  padding: 10px;
+  justify-content: space-around;
+  align-items: center;
+  padding-top: 60px;
+}
 
-  margin-top: 13px;
-  flex-shrink: 0;
+.livestream-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-top: 60px;
+}
+
+.audio-select {
+  display: flex;
+  align-items: center;
+  padding-top: 60px;
+  height: 200px;
+  justify-content: space-around;
+}
+
+.prerecorded-container {
+  display: flex;
+  min-height: 260px;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.transcribe-button-container,
+.upload-container {
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  align-items: center;
+  justify-content: center;
+  width: 250px;
+  margin: auto;
+  text-align: left;
 }
 
 .UploadButton {
@@ -212,16 +286,12 @@ option {
   display: flex;
   justify-content: center;
   align-items: center;
-  top: -10px;
-  left: -10px;
-
+  margin-top: 12px;
   height: 48px;
   width: 200px;
-  
 
   border-radius: 4px;
-  border: 1px solid var(--grays-ghost-white, #FBFBFF);
-  background: var(--grays-ghost-white, #FBFBFF);
+  background: var(--grays-ghost-white, #fbfbff);
 
   color: var(--text-dark-text-on-a-light-bg, #101014);
   font-family: Inter;
@@ -234,9 +304,12 @@ option {
 .UploadButton:hover {
   border-radius: 4px;
   border: 1px transparent;
-  background: var(--gradient-magenta-purple-vertical, linear-gradient(40deg, #FF2EEA 5.66%, #4B3CFF 92.50%));
+  background: var(
+    --gradient-magenta-purple-vertical,
+    linear-gradient(40deg, #ff2eea 5.66%, #4b3cff 92.5%)
+  );
 
-  color: var(--grays-ghost-white, #FBFBFF);
+  color: var(--grays-ghost-white, #fbfbff);
   font-family: Inter;
   font-size: 14px;
   font-style: normal;
@@ -244,7 +317,7 @@ option {
   line-height: 145%; /* 20.3px */
 }
 
-input[type="file"] {
+input[type='file'] {
   display: none;
 }
 

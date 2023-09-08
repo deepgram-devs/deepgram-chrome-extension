@@ -2,72 +2,62 @@ import React from 'react';
 import { styled, Stack, Switch, Typography } from '@mui/material';
 import useStream from './useStream';
 
-import './App.css'
+import './App.css';
 
-export const LiveStreamControl = ({tokenRef, resultRef, setTranscript, handleClearText}) => {
-    const { 
-        isStreaming,
-        allowMic, 
-        handleStream,
-        handleAllowMic,
-      } = useStream();
+export const LiveStreamControl = ({
+  tokenRef,
+  resultRef,
+  setTranscript,
+  handleClearText,
+}) => {
+  const { isStreaming, allowMic, handleStream, handleAllowMic } = useStream();
 
-    return (
-        <Stack 
-          direction={"row"} 
-          justifyContent={"space-around"}
-          alignItems={"center"}
-          minHeight={100}
-        > 
-        <Stack 
-          direction={"row"} 
-          justifyContent={"left"}
-          alignItems={"center"}
-          spacing={2}
-          minWidth={200}
-        >
-          {ToggleSwitch(allowMic, handleAllowMic)}
-        </Stack>
-          <button
-            className="PrimaryButton"
-            color={isStreaming ? "error" : "primary"}
-            onClick={handleStream(tokenRef, resultRef, setTranscript)}
-          >
-            {isStreaming ? "End Livestream" : "Start LiveStream"}
-          </button>
-          <button
+  return (
+    <div className="livestream-container">
+      <Stack
+        direction={'row'}
+        justifyContent={'left'}
+        alignItems={'center'}
+        spacing={2}
+        minWidth={200}
+        minHeight={200}
+      >
+        {ToggleSwitch(allowMic, handleAllowMic)}
+      </Stack>
+      <button
+        className="PrimaryButton"
+        color={isStreaming ? 'error' : 'primary'}
+        onClick={handleStream(tokenRef, resultRef, setTranscript)}
+      >
+        {isStreaming ? 'End Livestream' : 'Start LiveStream'}
+      </button>
+      {/* <button
             className="SecondaryButton"
             onClick={handleClearText}
           >
             Clear Text
-          </button>
-        </Stack>
-    );
+          </button> */}
+    </div>
+  );
 };
 
 const ToggleSwitch = (allowMic, handleAllowMic) => {
   if (allowMic) {
     return (
       <>
-          <AntSwitch
-              checked={allowMic}
-              onClick={handleAllowMic}
-          />
-          <Typography className='Label'>Mic and Tab</Typography>
+        <AntSwitch checked={allowMic} onClick={handleAllowMic} />
+        <Typography className="Label">Include Mic</Typography>
       </>
-    )
+    );
   } else {
     return (
       <>
-          <AntSwitch
-              checked={allowMic}
-              onClick={handleAllowMic}
-          />
-          <Typography className='Label'>Tab Audio Only</Typography>
+        <AntSwitch checked={allowMic} onClick={handleAllowMic} />
+        <Typography className="Label">Tab Audio Only</Typography>
       </>
-    )
+    );
   }
-}
+};
 
 const AntSwitch = styled(Switch)(({ theme }) => ({
   width: 56,
@@ -90,7 +80,7 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
       color: '#232329',
       '& + .MuiSwitch-track': {
         opacity: 1,
-        backgroundColor:  '#13EF93',
+        backgroundColor: '#13EF93',
       },
     },
   },
@@ -107,8 +97,7 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
   '& .MuiSwitch-track': {
     borderRadius: 34 / 2,
     opacity: 1,
-    backgroundColor:
-      '#BBBBBF',
+    backgroundColor: '#BBBBBF',
     boxSizing: 'border-box',
   },
 }));

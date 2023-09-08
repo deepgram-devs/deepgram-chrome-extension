@@ -2,7 +2,6 @@ body {
   width: 300px;
   height: 300px;
   margin: 0;
-
   position: relative;
   background: linear-gradient(
       193.95deg,
@@ -11,7 +10,3 @@ body {
     ),
     linear-gradient(270deg, #673afc -50%, #101014 100%, #673afc -100%);
 }
-
-
-
-

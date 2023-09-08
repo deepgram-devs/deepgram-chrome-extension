@@ -8,7 +8,7 @@ body {
 }
 
 label {
-  color: var(--grays-ghost-white, #FBFBFF);
+  color: var(--grays-ghost-white, #fbfbff);
   font-family: Inter;
   font-size: 16px;
   font-style: normal;
@@ -24,9 +24,9 @@ select {
   margin-left: auto;
 
   border-radius: var(--radius, 4px);
-  border: 1px solid var(--border, #4E4E52);
+  border: 1px solid var(--border, #4e4e52);
 
-  color: var(--grays-ghost-white, #FBFBFF);
+  color: var(--grays-ghost-white, #fbfbff);
   font-family: Inter;
   font-size: 14px;
   font-style: normal;
@@ -39,14 +39,13 @@ select {
 option {
   flex: 1 0 0;
 
-  color: var(--grays-ghost-white, #FBFBFF);
+  color: var(--grays-ghost-white, #fbfbff);
   /* body/Body1 */
   font-family: Inter;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 145%; /* 23.2px */
-
 }
 
 .Row {
@@ -55,18 +54,18 @@ option {
 }
 
 .MuiTypography-root.Label {
-  color: var(--text-header, #FBFBFF);
-/* header/H3 */
-font-family: ABC Favorit;
-font-size: 20px;
-font-style: normal;
-font-weight: 700;
-line-height: 140%; /* 28px */
-padding-top: 14px;
-padding-bottom: 14px;
+  color: var(--text-header, #fbfbff);
+  /* header/H3 */
+  font-family: ABCFavorit;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 140%; /* 28px */
+  padding-top: 14px;
+  padding-bottom: 14px;
 }
 
 .MuiContainer-root {
-  background: #1A1A1F;
+  background: #1a1a1f;
   box-shadow: 0px 2px 4px 0px #00000040;
 }
