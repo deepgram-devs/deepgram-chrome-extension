@@ -2,11 +2,8 @@
   "manifest_version": 3,
   "name": "Deepgram Chrome Extension",
   "description": "A chrome extension for audio transcription, powered by Deepgram",
-  "permissions": [
-    "cookies",
-    "storage",
-    "declarativeNetRequest"
-  ],
+  "version": "1.0",
+  "permissions": ["cookies", "storage", "declarativeNetRequest"],
   "host_permissions": ["*://*.deepgram.com/*"],
   "options_ui": {
     "page": "options.html",

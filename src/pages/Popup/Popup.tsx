@@ -55,7 +55,7 @@ const Popup = () => {
           >
             {' '}
             New to Deepgram? <br />
-            <a href="https://console.deepgram.com/signup" target="_blank">
+            <a href="https://dpgr.am/dg-signup" target="_blank">
               Sign up free
             </a>{' '}
           </Typography>
@@ -71,7 +71,7 @@ const Popup = () => {
           >
             {' '}
             Already have an account? <br />
-            <a href="https://console.deepgram.com/login" target="_blank">
+            <a href="https://dpgr.am/dg-login" target="_blank">
               Log in
             </a>{' '}
           </Typography>

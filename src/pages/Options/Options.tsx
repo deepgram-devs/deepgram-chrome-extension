@@ -221,8 +221,11 @@ const Options: React.FC = () => {
         <a href="https://developers.deepgram.com/docs" target="blank">
           Deepgram documentation{' '}
         </a>
-        for more information.
+        for more information. Every account starts with $200 in free credits.
+        You can add more if you need them at{' '}
+        <a href="https://console.deepgram.com/">Deepram.com</a>
       </p>
+
       <div className="options-container">
         <div className="livestream-container">
           <h2>Livestream:</h2>
