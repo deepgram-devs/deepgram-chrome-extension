@@ -51,6 +51,7 @@ const useStream = () => {
 					socketRef.current = new WebSocket(`wss://api.deepgram.com/v1/listen${queryString}`, ['token', token]);
 					socketRef.current.addEventListener('error', (err) => {
 						setIsStreaming(false);
+            alert("Failed to establish connection. Please make sure you have enough credit in your project.");
 						if (socketRef.current) socketRef.current.close();
 						if (recorderRef.current) recorderRef.current.stop();
 						if (screenStream) {
@@ -61,7 +62,6 @@ const useStream = () => {
 						}
 					});
 				} catch (error) {
-          console.error(error);
 					setIsStreaming(false);
         	alert("Failed to establish connection. Please make sure you have enough credit in your project.");
 				}
