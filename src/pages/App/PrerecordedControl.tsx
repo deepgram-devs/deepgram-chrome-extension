@@ -61,7 +61,6 @@ export const PrerecordedControl = ({
       `https://api.deepgram.com/v1/listen${queryString}`,
       fetchOptions
     );
-    console.log(isTranscribing, 'transcribe');
 
     const { metadata, results } = await res.json();
     if (results) {
