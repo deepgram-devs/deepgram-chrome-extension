@@ -25,8 +25,8 @@ This is where the user can select the different features (such as smart formatti
 1. Your Node version must be >= 18.
 2. Clone the repository.
 3. Type `npm install` to install the dependencies.
-4. Type `npm start` to spin up the dev server.
-5. Type `npm build` to create the build folder
+4. Type `npm run start` to spin up the dev server.
+5. Type `npm run build` to create the build folder
 
 ### Step 2: Adding project to Chrome
 
