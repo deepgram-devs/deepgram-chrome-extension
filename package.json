@@ -1,5 +1,5 @@
 {
-  "name": "Deepgram Chrome Extension",
+  "name": "deepgram-chrome-extension",
   "version": "0.1.0",
   "description": "A chrome extension for audio transcription, powered by Deepgram",
   "license": "MIT",
